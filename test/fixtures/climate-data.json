@@ -1,0 +1,46 @@
+{
+  "floors": [
+    {
+      "id": "first_floor",
+      "name": "First floor",
+      "rooms": [
+        {
+          "id": "bedroom",
+          "name": "Bedroom",
+          "temperature": { "value": 21.26, "unit": "°C" },
+          "humidity": { "value": 48.7, "unit": "%" },
+          "pm25": null
+        },
+        {
+          "id": "bathroom",
+          "name": "Bathroom",
+          "temperature": null,
+          "humidity": null,
+          "pm25": null
+        }
+      ]
+    },
+    {
+      "id": "ground_floor",
+      "name": "Ground floor",
+      "rooms": [
+        {
+          "id": "kitchen",
+          "name": "Kitchen",
+          "temperature": { "value": 23.84, "unit": "°C" },
+          "humidity": { "value": 55.2, "unit": "%" },
+          "pm25": { "value": 12.6, "unit": "µg/m³" }
+        }
+      ]
+    }
+  ],
+  "other_rooms": [
+    {
+      "id": "garage",
+      "name": "Garage",
+      "temperature": { "value": 14, "unit": "°C" },
+      "humidity": null,
+      "pm25": { "value": 8.1, "unit": "µg/m³" }
+    }
+  ]
+}

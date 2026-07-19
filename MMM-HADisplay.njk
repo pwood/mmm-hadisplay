@@ -1,0 +1,49 @@
+<div class="mmm-hadisplay">
+  {% if loading %}
+    <div class="small dimmed mmm-hadisplay-status">Loading…</div>
+  {% elif initialError %}
+    <div class="small dimmed mmm-hadisplay-status">Home Assistant data unavailable</div>
+  {% else %}
+    <table class="small mmm-hadisplay-table">
+      <thead>
+        <tr class="dimmed">
+          <th class="normal align-left">Room</th>
+          <th class="normal align-right">Temperature</th>
+          <th class="normal align-right">Humidity</th>
+          <th class="normal align-right">PM2.5</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for floor in floors %}
+          <tr class="dateheader mmm-hadisplay-section">
+            <td colspan="4" class="bright">{{ floor.name }}</td>
+          </tr>
+          {% for room in floor.rooms %}
+            <tr class="normal mmm-hadisplay-room">
+              <td class="bright align-left">{{ room.name }}</td>
+              <td class="align-right">{{ room.temperature }}</td>
+              <td class="align-right">{{ room.humidity }}</td>
+              <td class="align-right">{{ room.pm25 }}</td>
+            </tr>
+          {% endfor %}
+        {% endfor %}
+        {% if otherRooms | length > 0 %}
+          <tr class="dateheader mmm-hadisplay-section">
+            <td colspan="4" class="bright">Other rooms</td>
+          </tr>
+          {% for room in otherRooms %}
+            <tr class="normal mmm-hadisplay-room">
+              <td class="bright align-left">{{ room.name }}</td>
+              <td class="align-right">{{ room.temperature }}</td>
+              <td class="align-right">{{ room.humidity }}</td>
+              <td class="align-right">{{ room.pm25 }}</td>
+            </tr>
+          {% endfor %}
+        {% endif %}
+      </tbody>
+    </table>
+    {% if stale %}
+      <div class="xsmall dimmed mmm-hadisplay-stale">Data unavailable</div>
+    {% endif %}
+  {% endif %}
+</div>

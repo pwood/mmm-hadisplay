@@ -1,0 +1,44 @@
+.mmm-hadisplay {
+  width: 100%;
+}
+
+.mmm-hadisplay-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.mmm-hadisplay-table th,
+.mmm-hadisplay-table td {
+  line-height: 1.35;
+  padding: 0 0 0 12px;
+  white-space: nowrap;
+}
+
+.mmm-hadisplay-table th {
+  font-weight: normal;
+}
+
+.mmm-hadisplay-section td {
+  padding-bottom: 2px;
+  padding-top: 10px;
+  text-transform: uppercase;
+}
+
+.mmm-hadisplay-section:first-child td {
+  padding-top: 4px;
+}
+
+.mmm-hadisplay-table th:first-child,
+.mmm-hadisplay-table td:first-child {
+  padding-left: 0;
+  width: 100%;
+}
+
+.mmm-hadisplay-status {
+  text-align: left;
+}
+
+.mmm-hadisplay-stale {
+  margin-top: 6px;
+  text-align: right;
+}
