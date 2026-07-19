@@ -87,51 +87,16 @@ Module.register("MMM-HADisplay", {
     return measurement.unit ? `${formattedValue} ${measurement.unit}` : formattedValue;
   },
 
-  isUpwardAction(action) {
-    return action === "heating" || action === "humidifying";
+  selectControl(controls, metric) {
+    return controls.find((control) => control.metric === metric) || null;
   },
 
-  preferDirectionalTarget(candidate, selected) {
-    const candidateIsUpward = this.isUpwardAction(candidate.action);
-    if (candidateIsUpward !== this.isUpwardAction(selected.action)) {
-      return false;
-    }
-    return candidateIsUpward
-      ? candidate.target > selected.target
-      : candidate.target < selected.target;
-  },
-
-  selectControl(controls, metric, measurement) {
-    const candidates = controls.filter((control) => control.metric === metric);
-    if (candidates.length === 0) {
-      return null;
-    }
-
-    const currentValue = measurement?.value;
-    return candidates.reduce((selected, candidate) => {
-      if (!selected) {
-        return candidate;
-      }
-
-      if (Number.isFinite(currentValue)) {
-        const candidateDelta = Math.abs(candidate.target - currentValue);
-        const selectedDelta = Math.abs(selected.target - currentValue);
-        if (candidateDelta !== selectedDelta) {
-          return candidateDelta > selectedDelta ? candidate : selected;
-        }
-      }
-
-      return this.preferDirectionalTarget(candidate, selected) ? candidate : selected;
-    }, null);
-  },
-
-  prepareMeasurement(measurement, fractionDigits, control, defaultUnit) {
+  prepareMeasurement(measurement, fractionDigits, control) {
     const value = this.formatMeasurement(measurement, fractionDigits);
     if (!control) {
-      return { value, valueClass: "", direction: "", target: "" };
+      return { value, valueClass: "" };
     }
 
-    const unit = control.unit || measurement?.unit || defaultUnit;
     const valueClass =
       control.action === "heating"
         ? "mmm-hadisplay-value-heating"
@@ -141,21 +106,19 @@ Module.register("MMM-HADisplay", {
 
     return {
       value,
-      valueClass: measurement ? valueClass : "",
-      direction: this.isUpwardAction(control.action) ? "↗" : "↘",
-      target: this.formatMeasurement({ value: control.target, unit }, fractionDigits)
+      valueClass: measurement ? valueClass : ""
     };
   },
 
   prepareRoom(room) {
     const controls = room.controls || [];
-    const temperatureControl = this.selectControl(controls, "temperature", room.temperature);
-    const humidityControl = this.selectControl(controls, "humidity", room.humidity);
+    const temperatureControl = this.selectControl(controls, "temperature");
+    const humidityControl = this.selectControl(controls, "humidity");
     return {
       id: room.id,
       name: room.name,
-      temperature: this.prepareMeasurement(room.temperature, 1, temperatureControl, ""),
-      humidity: this.prepareMeasurement(room.humidity, 0, humidityControl, "%"),
+      temperature: this.prepareMeasurement(room.temperature, 1, temperatureControl),
+      humidity: this.prepareMeasurement(room.humidity, 0, humidityControl),
       pm25: this.formatMeasurement(room.pm25, 0)
     };
   },

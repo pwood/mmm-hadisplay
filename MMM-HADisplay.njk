@@ -15,11 +15,9 @@
               <td class="align-left">{{ room.name }}</td>
               <td class="align-right">
                 <span class="{{ room.temperature.valueClass }}">{{ room.temperature.value }}</span>
-                {% if room.temperature.target %}<span class="mmm-hadisplay-target">{{ room.temperature.direction }} {{ room.temperature.target }}</span>{% endif %}
               </td>
               <td class="align-right">
                 <span class="{{ room.humidity.valueClass }}">{{ room.humidity.value }}</span>
-                {% if room.humidity.target %}<span class="mmm-hadisplay-target">{{ room.humidity.direction }} {{ room.humidity.target }}</span>{% endif %}
               </td>
               <td class="align-right">{{ room.pm25 }}</td>
             </tr>
@@ -34,11 +32,9 @@
               <td class="align-left">{{ room.name }}</td>
               <td class="align-right">
                 <span class="{{ room.temperature.valueClass }}">{{ room.temperature.value }}</span>
-                {% if room.temperature.target %}<span class="mmm-hadisplay-target">{{ room.temperature.direction }} {{ room.temperature.target }}</span>{% endif %}
               </td>
               <td class="align-right">
                 <span class="{{ room.humidity.valueClass }}">{{ room.humidity.value }}</span>
-                {% if room.humidity.target %}<span class="mmm-hadisplay-target">{{ room.humidity.direction }} {{ room.humidity.target }}</span>{% endif %}
               </td>
               <td class="align-right">{{ room.pm25 }}</td>
             </tr>

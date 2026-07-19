@@ -51,8 +51,6 @@ test("the fixed template includes all selection and grouping operations", () => 
     "device_class == 'pm25'",
     "action in ['heating', 'preheating', 'cooling']",
     "action in ['humidifying', 'drying']",
-    "target_temp_low",
-    "target_temp_high",
     "value > readings.temperature_value",
     "value > readings.humidity_value",
     "value > readings.pm25_value",
@@ -67,6 +65,8 @@ test("the fixed template includes all selection and grouping operations", () => 
   for (const fragment of requiredFragments) {
     assert.ok(HOME_ASSISTANT_TEMPLATE.includes(fragment), `missing ${fragment}`);
   }
+  assert.ok(!HOME_ASSISTANT_TEMPLATE.includes("target_temp"));
+  assert.ok(!HOME_ASSISTANT_TEMPLATE.includes("target="));
 });
 
 test("fetchClimateData posts the fixed template and parses plain-text JSON", async () => {

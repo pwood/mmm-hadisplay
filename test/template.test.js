@@ -20,22 +20,18 @@ test("the display template renders floors, all rooms, missing values, and other 
             name: "Bedroom",
             temperature: {
               value: "21.3 °C",
-              valueClass: "mmm-hadisplay-value-heating",
-              direction: "↗",
-              target: "24.0 °C"
+              valueClass: "mmm-hadisplay-value-heating"
             },
             humidity: {
               value: "49 %",
-              valueClass: "mmm-hadisplay-value-humidity",
-              direction: "↘",
-              target: "45 %"
+              valueClass: "mmm-hadisplay-value-humidity"
             },
             pm25: "–"
           },
           {
             name: "Bathroom",
-            temperature: { value: "–", valueClass: "", direction: "", target: "" },
-            humidity: { value: "–", valueClass: "", direction: "", target: "" },
+            temperature: { value: "–", valueClass: "" },
+            humidity: { value: "–", valueClass: "" },
             pm25: "–"
           }
         ]
@@ -44,8 +40,8 @@ test("the display template renders floors, all rooms, missing values, and other 
     otherRooms: [
       {
         name: "Garage",
-        temperature: { value: "14.0 °C", valueClass: "", direction: "", target: "" },
-        humidity: { value: "–", valueClass: "", direction: "", target: "" },
+        temperature: { value: "14.0 °C", valueClass: "" },
+        humidity: { value: "–", valueClass: "" },
         pm25: "8 µg/m³"
       }
     ]
@@ -58,8 +54,6 @@ test("the display template renders floors, all rooms, missing values, and other 
     "Other areas",
     "Garage",
     "21.3 °C",
-    "↗ 24.0 °C",
-    "↘ 45 %",
     "Data unavailable"
   ]) {
     assert.ok(output.includes(text), `missing ${text}`);
@@ -68,7 +62,8 @@ test("the display template renders floors, all rooms, missing values, and other 
   assert.ok(output.includes('class="align-left"'));
   assert.ok(!output.includes('class="bright align-left"'));
   assert.ok(output.includes('class="mmm-hadisplay-value-heating"'));
-  assert.ok(output.includes('class="mmm-hadisplay-target"'));
+  assert.ok(!output.includes("↗"));
+  assert.ok(!output.includes("↘"));
   assert.ok(!output.includes("<thead>"));
   assert.ok(output.includes('class="align-right"'));
 });

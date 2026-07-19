@@ -30,13 +30,13 @@ When several selected sensors of the same device class are in one area, the modu
 
 Create a second label named exactly `Climate Control` and apply it to standard Home Assistant `climate` or `humidifier` entities, or to their parent devices. Climate controls are optional and never create a room by themselves.
 
-When a selected controller is actively heating, cooling, humidifying, or drying, the corresponding current room measurement is highlighted and followed by a smaller directional target. Idle and off controllers are not shown:
+When a selected controller is actively heating, cooling, humidifying, or drying, the corresponding current room measurement is highlighted. Idle and off controllers are not shown:
 
-- Heating uses warm orange/red with an upward arrow.
-- Cooling uses ice blue with a downward arrow.
-- Humidifying and drying use light blue with an upward or downward arrow.
+- Heating uses warm orange/red.
+- Cooling uses ice blue.
+- Humidifying and drying use light blue.
 
-Only the current measurement is colored; the arrow and target retain the normal row color. If several controllers for the same measurement are active, the module displays the target with the largest absolute difference from the current room reading. Without a current reading, it uses the highest heating/humidifying target or the lowest cooling/drying target.
+No target values or direction indicators are requested or displayed, keeping the table dimensions unchanged. If several controllers for the same measurement are active, the room still receives a single activity colour.
 
 ## Installation
 
@@ -89,7 +89,7 @@ The module sends Home Assistant requests only from its node helper and never log
 - Rooms with no current temperature, humidity, or PM2.5 value are omitted.
 - Floor and room order is preserved as returned by Home Assistant.
 - Temperature uses one decimal place; humidity and PM2.5 use whole numbers.
-- Active climate-control targets are shown only while their Home Assistant action is heating, cooling, humidifying, or drying.
+- Active climate-control colours are shown only while their Home Assistant action is heating, cooling, humidifying, or drying.
 - After a transient error, the last successful table remains visible with a dimmed **Data unavailable** note.
 
 ## Troubleshooting
@@ -113,9 +113,9 @@ Confirm that its sensors have supported device classes, valid numeric states, an
 
 Assign the entity or its parent device to a Home Assistant area. Sensors without an area are intentionally ignored.
 
-### An active target does not appear
+### An active colour does not appear
 
-Confirm that the `climate` or `humidifier` entity—or its parent device—has the exact `Climate Control` label, belongs to the same Home Assistant area, exposes a numeric target, and reports an active action rather than `idle` or `off`.
+Confirm that the `climate` or `humidifier` entity—or its parent device—has the exact `Climate Control` label, belongs to the same Home Assistant area, and reports an active action rather than `idle` or `off`.
 
 ## Development
 

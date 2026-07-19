@@ -114,38 +114,23 @@ test("getTemplateData preserves group order and formats measurements", () => {
   );
   assert.deepEqual(data.floors[0].rooms[0].temperature, {
     value: "21.3 °C",
-    valueClass: "mmm-hadisplay-value-heating",
-    direction: "↗",
-    target: "24.0 °C"
+    valueClass: "mmm-hadisplay-value-heating"
   });
   assert.deepEqual(data.floors[0].rooms[0].humidity, {
     value: "49 %",
-    valueClass: "mmm-hadisplay-value-humidity",
-    direction: "↘",
-    target: "45 %"
+    valueClass: "mmm-hadisplay-value-humidity"
   });
   assert.equal(data.floors[0].rooms[0].pm25, "–");
   assert.equal(data.floors[1].rooms[0].pm25, "13 µg/m³");
-  assert.equal(data.floors[1].rooms[0].temperature.target, "18.0 °C");
-  assert.equal(data.floors[1].rooms[0].temperature.direction, "↘");
-  assert.equal(data.floors[1].rooms[0].humidity.target, "60 %");
-  assert.equal(data.floors[1].rooms[0].humidity.direction, "↗");
+  assert.equal(
+    data.floors[1].rooms[0].temperature.valueClass,
+    "mmm-hadisplay-value-cooling"
+  );
+  assert.equal(
+    data.floors[1].rooms[0].humidity.valueClass,
+    "mmm-hadisplay-value-humidity"
+  );
   assert.equal(data.otherRooms[0].name, "Garage");
-});
-
-test("selectControl falls back to directional extremes without a current reading", () => {
-  const instance = createInstance();
-  const heating = [
-    { metric: "temperature", action: "heating", target: 20, unit: "°C" },
-    { metric: "temperature", action: "heating", target: 23, unit: "°C" }
-  ];
-  const cooling = [
-    { metric: "temperature", action: "cooling", target: 21, unit: "°C" },
-    { metric: "temperature", action: "cooling", target: 18, unit: "°C" }
-  ];
-
-  assert.equal(instance.selectControl(heating, "temperature", null).target, 23);
-  assert.equal(instance.selectControl(cooling, "temperature", null).target, 18);
 });
 
 test("getTemplateData removes empty rooms and floor headings", () => {

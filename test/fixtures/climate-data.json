@@ -11,9 +11,9 @@
           "humidity": { "value": 48.7, "unit": "%" },
           "pm25": null,
           "controls": [
-            { "metric": "temperature", "action": "heating", "target": 22, "unit": "°C" },
-            { "metric": "temperature", "action": "heating", "target": 24, "unit": "°C" },
-            { "metric": "humidity", "action": "drying", "target": 45, "unit": "%" }
+            { "metric": "temperature", "action": "heating" },
+            { "metric": "temperature", "action": "heating" },
+            { "metric": "humidity", "action": "drying" }
           ]
         },
         {
@@ -37,9 +37,9 @@
           "humidity": { "value": 55.2, "unit": "%" },
           "pm25": { "value": 12.6, "unit": "µg/m³" },
           "controls": [
-            { "metric": "temperature", "action": "cooling", "target": 22, "unit": "°C" },
-            { "metric": "temperature", "action": "cooling", "target": 18, "unit": "°C" },
-            { "metric": "humidity", "action": "humidifying", "target": 60, "unit": "%" }
+            { "metric": "temperature", "action": "cooling" },
+            { "metric": "temperature", "action": "cooling" },
+            { "metric": "humidity", "action": "humidifying" }
           ]
         }
       ]
