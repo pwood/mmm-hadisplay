@@ -22,7 +22,8 @@
               { "color_mode": "hs", "rgb": null, "rgbw": null, "rgbww": null, "hs": [12, 90], "xy": null, "kelvin": null },
               { "color_mode": "color_temp", "rgb": null, "rgbw": null, "rgbww": null, "hs": null, "xy": null, "kelvin": 2700 }
             ]
-          }
+          },
+          "security": { "available": true, "clear": true }
         },
         {
           "id": "bathroom",
@@ -31,7 +32,8 @@
           "humidity": null,
           "pm25": null,
           "controls": [],
-          "lighting": { "available": false, "on": false, "colors": [] }
+          "lighting": { "available": false, "on": false, "colors": [] },
+          "security": { "available": false, "clear": null }
         }
       ]
     },
@@ -57,7 +59,8 @@
               { "color_mode": "hs", "rgb": null, "rgbw": null, "rgbww": null, "hs": [200, 30], "xy": null, "kelvin": null },
               { "color_mode": "rgb", "rgb": [0, 20, 255], "rgbw": null, "rgbww": null, "hs": null, "xy": null, "kelvin": null }
             ]
-          }
+          },
+          "security": { "available": true, "clear": false }
         }
       ]
     }
@@ -70,7 +73,8 @@
       "humidity": null,
       "pm25": { "value": 8.1, "unit": "µg/m³" },
       "controls": [],
-      "lighting": { "available": true, "on": false, "colors": [] }
+      "lighting": { "available": true, "on": false, "colors": [] },
+      "security": { "available": true, "clear": null }
     }
   ]
 }

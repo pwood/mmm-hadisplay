@@ -1,6 +1,6 @@
 # MMM-HADisplay
 
-`MMM-HADisplay` is a restrained [MagicMirror²](https://magicmirror.builders/) module that displays room climate readings and lighting state from Home Assistant. Rooms are grouped by Home Assistant floor, with areas that have no floor shown under **Other areas**. Colour is reserved for active climate adjustments and lights that are currently on.
+`MMM-HADisplay` is a restrained [MagicMirror²](https://magicmirror.builders/) module that displays room climate readings, lighting state, and door security from Home Assistant. Rooms are grouped by Home Assistant floor, with areas that have no floor shown under **Other areas**. Colour is reserved for active climate adjustments, lights that are currently on, and doors that are open.
 
 The module posts a fixed Jinja template to Home Assistant's `/api/template` endpoint. For every area with at least one available climate reading, it shows the maximum current temperature, humidity, and PM2.5 value from selected sensors. Missing values within an otherwise populated room are displayed as a dash.
 
@@ -52,6 +52,18 @@ The lightbulb at the right of every displayed room indicates its lighting state:
 
 When an active `light` entity reports a colour, the bulb receives a softened version of the most saturated active colour. If the active lights report only colour temperature, their current Kelvin values are averaged and shown as a subtle warm or cool tint. On/off lights exposed as either `light` or `switch`, and brightness-only lights, use the normal text colour. Brightness levels are intentionally ignored.
 
+### Door security
+
+Create a fourth label named exactly `Security` and apply it to `binary_sensor` entities—or their parent devices—that have **Shown as** set to **Door**. Door security is optional. An area with a selected security door receives a row even when it has no selected environmental sensors or lights.
+
+The door icon to the right of the lightbulb summarizes every selected door in the area:
+
+- A very dim closed door means the area has no selected security door, or its state is unavailable.
+- A dim closed door means every selected door is off/closed and the room is clear.
+- A highlighted open door means at least one selected door is on/open and the room is not clear.
+
+If one door is open while another is unavailable, the open state wins because the room is definitively not clear. If no door is open but any selected door is unavailable, the room is not reported as clear.
+
 ## Installation
 
 Clone this repository into the MagicMirror `modules` directory:
@@ -101,8 +113,9 @@ The module sends Home Assistant requests only from its node helper and never log
 - Data is requested immediately at startup and then once per `updateInterval`.
 - The first successful table display fades in; subsequent refreshes update without a transition.
 - Polling stops while the module is suspended and refreshes immediately when resumed.
-- Rooms with neither a current environmental reading nor a selected light are omitted. Light-only rooms show dashes in all three measurement columns.
+- Rooms with neither a current environmental reading, a selected light, nor a selected security door are omitted. Light-only and security-only rooms show dashes in all three measurement columns.
 - The lightbulb column follows the `Lighting` label and is always present for every displayed room.
+- The door column follows `Security`-labelled door binary sensors and is always present for every displayed room.
 - Floor and room order is preserved as returned by Home Assistant.
 - Temperature uses one decimal place; humidity and PM2.5 use whole numbers.
 - Active climate-control colours are shown only while their Home Assistant action is heating, cooling, humidifying, or drying.
@@ -138,6 +151,10 @@ Confirm that the `climate` or `humidifier` entity—or its parent device—has t
 Confirm that the `light` or `switch` entity—or its parent device—has the exact `Lighting` label and belongs to the same Home Assistant area. The tint reflects current colour attributes from `light` entities that are on. Switch entities do not provide colour data, and some light integrations omit it as well.
 
 For switch-based lights, prefer labelling the parent device or the exact relay entity. The module ignores named auxiliary switches exposed by the same device.
+
+### A door has the wrong state
+
+Confirm that the `binary_sensor` entity—or its parent device—has the exact `Security` label, belongs to the expected Home Assistant area, and has **Shown as** set to **Door**. Home Assistant exposes this setting as the entity's `device_class: door`; the underlying state remains `on` for open and `off` for closed.
 
 ## Development
 

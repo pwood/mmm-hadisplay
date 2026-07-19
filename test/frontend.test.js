@@ -152,11 +152,26 @@ test("getTemplateData preserves group order and formats measurements", () => {
     className: "mmm-hadisplay-light-on",
     style: "color: rgb(129, 138, 244)"
   });
+  assert.deepEqual(data.floors[0].rooms[0].security, {
+    iconName: "fa-door-closed",
+    className: "mmm-hadisplay-security-clear",
+    label: "Room clear"
+  });
+  assert.deepEqual(data.floors[1].rooms[0].security, {
+    iconName: "fa-door-open",
+    className: "mmm-hadisplay-security-open",
+    label: "Door open"
+  });
   assert.equal(data.otherRooms[0].name, "Garage");
   assert.deepEqual(data.otherRooms[0].lighting, {
     iconClass: "far",
     className: "mmm-hadisplay-light-off",
     style: ""
+  });
+  assert.deepEqual(data.otherRooms[0].security, {
+    iconName: "fa-door-closed",
+    className: "mmm-hadisplay-security-unknown",
+    label: "Door state unavailable"
   });
 });
 
@@ -208,6 +223,31 @@ test("prepareLighting distinguishes absent, off, neutral, colour, and CCT lights
   });
 });
 
+test("prepareSecurity distinguishes absent, unknown, clear, and open doors", () => {
+  const instance = createInstance();
+
+  assert.deepEqual(instance.prepareSecurity({ available: false, clear: null }), {
+    iconName: "fa-door-closed",
+    className: "mmm-hadisplay-security-unavailable",
+    label: "No security door"
+  });
+  assert.deepEqual(instance.prepareSecurity({ available: true, clear: null }), {
+    iconName: "fa-door-closed",
+    className: "mmm-hadisplay-security-unknown",
+    label: "Door state unavailable"
+  });
+  assert.deepEqual(instance.prepareSecurity({ available: true, clear: true }), {
+    iconName: "fa-door-closed",
+    className: "mmm-hadisplay-security-clear",
+    label: "Room clear"
+  });
+  assert.deepEqual(instance.prepareSecurity({ available: true, clear: false }), {
+    iconName: "fa-door-open",
+    className: "mmm-hadisplay-security-open",
+    label: "Door open"
+  });
+});
+
 test("getTemplateData removes empty rooms and floor headings", () => {
   const emptyRoom = {
     id: "empty",
@@ -216,7 +256,8 @@ test("getTemplateData removes empty rooms and floor headings", () => {
     humidity: null,
     pm25: null,
     controls: [],
-    lighting: { available: false, on: false, colors: [] }
+    lighting: { available: false, on: false, colors: [] },
+    security: { available: false, clear: null }
   };
   const instance = createInstance({
     climateData: {
@@ -242,7 +283,8 @@ test("getTemplateData retains rooms that only have labelled lights", () => {
     humidity: null,
     pm25: null,
     controls: [],
-    lighting: { available: true, on: false, colors: [] }
+    lighting: { available: true, on: false, colors: [] },
+    security: { available: false, clear: null }
   };
   const instance = createInstance({
     climateData: {
@@ -257,6 +299,33 @@ test("getTemplateData retains rooms that only have labelled lights", () => {
   assert.equal(data.floors[0].rooms[0].humidity.value, "–");
   assert.equal(data.floors[0].rooms[0].pm25, "–");
   assert.equal(data.floors[0].rooms[0].lighting.className, "mmm-hadisplay-light-off");
+});
+
+test("getTemplateData retains rooms that only have labelled security doors", () => {
+  const securityOnlyRoom = {
+    id: "side_door",
+    name: "Side door",
+    temperature: null,
+    humidity: null,
+    pm25: null,
+    controls: [],
+    lighting: { available: false, on: false, colors: [] },
+    security: { available: true, clear: true }
+  };
+  const instance = createInstance({
+    climateData: {
+      floors: [{ id: "ground_floor", name: "Ground floor", rooms: [securityOnlyRoom] }],
+      other_rooms: []
+    }
+  });
+
+  const room = instance.getTemplateData().floors[0].rooms[0];
+  assert.equal(room.name, "Side door");
+  assert.equal(room.temperature.value, "–");
+  assert.equal(room.humidity.value, "–");
+  assert.equal(room.pm25, "–");
+  assert.equal(room.lighting.className, "mmm-hadisplay-light-unavailable");
+  assert.equal(room.security.className, "mmm-hadisplay-security-clear");
 });
 
 test("start, suspend, and resume manage polling without overlapping timers", (context) => {

@@ -135,6 +135,35 @@ Module.register("MMM-HADisplay", {
     };
   },
 
+  prepareSecurity(security) {
+    if (!security.available) {
+      return {
+        iconName: "fa-door-closed",
+        className: "mmm-hadisplay-security-unavailable",
+        label: "No security door"
+      };
+    }
+    if (security.clear === null) {
+      return {
+        iconName: "fa-door-closed",
+        className: "mmm-hadisplay-security-unknown",
+        label: "Door state unavailable"
+      };
+    }
+    if (security.clear) {
+      return {
+        iconName: "fa-door-closed",
+        className: "mmm-hadisplay-security-clear",
+        label: "Room clear"
+      };
+    }
+    return {
+      iconName: "fa-door-open",
+      className: "mmm-hadisplay-security-open",
+      label: "Door open"
+    };
+  },
+
   prepareRoom(room) {
     const controls = room.controls || [];
     const temperatureControl = this.selectControl(controls, "temperature");
@@ -145,7 +174,8 @@ Module.register("MMM-HADisplay", {
       temperature: this.prepareMeasurement(room.temperature, 1, temperatureControl),
       humidity: this.prepareMeasurement(room.humidity, 0, humidityControl),
       pm25: this.formatMeasurement(room.pm25, 0),
-      lighting: this.prepareLighting(room.lighting)
+      lighting: this.prepareLighting(room.lighting),
+      security: this.prepareSecurity(room.security)
     };
   },
 
@@ -154,7 +184,8 @@ Module.register("MMM-HADisplay", {
       room.temperature !== null ||
       room.humidity !== null ||
       room.pm25 !== null ||
-      room.lighting.available
+      room.lighting.available ||
+      room.security.available
     );
   },
 

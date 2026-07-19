@@ -46,6 +46,8 @@ test("the fixed template includes all selection and grouping operations", () => 
     "label_devices('Climate Control')",
     "label_entities('Lighting')",
     "label_devices('Lighting')",
+    "label_entities('Security')",
+    "label_devices('Security')",
     "device_entities(device_id)",
     "climate.entities | unique",
     "entity_id[:7] == 'sensor.'",
@@ -58,11 +60,14 @@ test("the fixed template includes all selection and grouping operations", () => 
     "action in ['humidifying', 'drying']",
     "entity_id[:6] == 'light.'",
     "entity_id[:7] == 'switch.'",
+    "entity_id[:14] == 'binary_sensor.'",
+    "state_attr(entity_id, 'device_class') == 'door'",
     "entity_name(entity_id) | default('', true)",
     "state_attr(entity_id, 'friendly_name') == device_name(device_id)",
     "device_switches.primary | length > 0",
     "device_switches.all | length == 1",
     "is_state(entity_id, 'on')",
+    "is_state(entity_id, 'off')",
     "rgb_color",
     "color_temp_kelvin",
     "value > readings.temperature_value",
@@ -73,6 +78,7 @@ test("the fixed template includes all selection and grouping operations", () => 
     "for area_id in areas()",
     "area_id not in result.assigned_areas",
     "readings.temperature is not none or readings.humidity is not none or readings.pm25 is not none or lighting.available",
+    "security=dict(available=door_security.available, clear=room_clear)",
     "build_room(area_id) | from_json",
     "to_json"
   ];
@@ -174,7 +180,8 @@ test("validateClimateData accepts the fixture and rejects malformed contracts", 
             humidity: null,
             pm25: null,
             controls: [],
-            lighting: { available: false, on: false, colors: [] }
+            lighting: { available: false, on: false, colors: [] },
+            security: { available: false, clear: null }
           }
         ]
       }),
@@ -192,10 +199,15 @@ test("validateClimateData accepts the fixture and rejects malformed contracts", 
             humidity: null,
             pm25: null,
             controls: [],
-            lighting: { available: true, on: true, colors: [{ rgb: [255, 0, 0] }] }
+            lighting: { available: true, on: true, colors: [{ rgb: [255, 0, 0] }] },
+            security: { available: false, clear: null }
           }
         ]
       }),
     HomeAssistantError
   );
+
+  const invalidSecurity = structuredClone(fixture);
+  invalidSecurity.floors[0].rooms[0].security = { available: false, clear: true };
+  assert.throws(() => validateClimateData(invalidSecurity), HomeAssistantError);
 });
