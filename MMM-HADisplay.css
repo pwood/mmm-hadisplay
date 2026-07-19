@@ -46,7 +46,7 @@
 }
 
 .mmm-hadisplay-pm25-unavailable {
-  opacity: 0.18;
+  opacity: 0.1;
 }
 
 .mmm-hadisplay-pm25-low {
@@ -70,14 +70,17 @@
 }
 
 .mmm-hadisplay-light-unavailable {
-  opacity: 0.18;
+  opacity: 0.1;
 }
 
 .mmm-hadisplay-light-off {
   opacity: 0.4;
 }
 
-.mmm-hadisplay-security-unavailable,
+.mmm-hadisplay-security-unavailable {
+  opacity: 0.1;
+}
+
 .mmm-hadisplay-security-unknown {
   opacity: 0.18;
 }
