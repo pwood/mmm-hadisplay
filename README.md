@@ -1,6 +1,6 @@
 # MMM-HADisplay
 
-`MMM-HADisplay` is a restrained [MagicMirror²](https://magicmirror.builders/) module that displays room climate readings from Home Assistant. Rooms are grouped by Home Assistant floor, with areas that have no floor shown under **Other areas**. Colour is reserved for current measurements while a climate controller is actively adjusting the room.
+`MMM-HADisplay` is a restrained [MagicMirror²](https://magicmirror.builders/) module that displays room climate readings and lighting state from Home Assistant. Rooms are grouped by Home Assistant floor, with areas that have no floor shown under **Other areas**. Colour is reserved for active climate adjustments and lights that are currently on.
 
 The module posts a fixed Jinja template to Home Assistant's `/api/template` endpoint. For every area with at least one available climate reading, it shows the maximum current temperature, humidity, and PM2.5 value from selected sensors. Missing values within an otherwise populated room are displayed as a dash.
 
@@ -37,6 +37,18 @@ When a selected controller is actively heating, cooling, humidifying, or drying,
 - Humidifying and drying use light blue.
 
 No target values or direction indicators are requested or displayed, keeping the table dimensions unchanged. If several controllers for the same measurement are active, the room still receives a single activity colour.
+
+### Lighting
+
+Create a third label named exactly `Lighting` and apply it to individual `light` entities or to their parent devices. Lighting is optional and does not create a room by itself.
+
+The lightbulb at the right of every displayed room indicates its lighting state:
+
+- Very dim means the area has no selected light.
+- Dim means the area has selected lights, but none is on.
+- Normal brightness means at least one selected light is on.
+
+When an active light reports a colour, the bulb receives a softened version of the most saturated active colour. If the active lights report only colour temperature, their current Kelvin values are averaged and shown as a subtle warm or cool tint. On/off and brightness-only lights use the normal text colour. Brightness levels are intentionally ignored.
 
 ## Installation
 
@@ -87,6 +99,7 @@ The module sends Home Assistant requests only from its node helper and never log
 - Data is requested immediately at startup and then once per `updateInterval`.
 - Polling stops while the module is suspended and refreshes immediately when resumed.
 - Rooms with no current temperature, humidity, or PM2.5 value are omitted.
+- The lightbulb column follows the `Lighting` label and is always present for every displayed room.
 - Floor and room order is preserved as returned by Home Assistant.
 - Temperature uses one decimal place; humidity and PM2.5 use whole numbers.
 - Active climate-control colours are shown only while their Home Assistant action is heating, cooling, humidifying, or drying.
@@ -116,6 +129,10 @@ Assign the entity or its parent device to a Home Assistant area. Sensors without
 ### An active colour does not appear
 
 Confirm that the `climate` or `humidifier` entity—or its parent device—has the exact `Climate Control` label, belongs to the same Home Assistant area, and reports an active action rather than `idle` or `off`.
+
+### A lightbulb has the wrong state or tint
+
+Confirm that the `light` entity—or its parent device—has the exact `Lighting` label and belongs to the same Home Assistant area. The tint reflects current colour attributes from lights that are on; not every light integration exposes colour or colour-temperature attributes.
 
 ## Development
 

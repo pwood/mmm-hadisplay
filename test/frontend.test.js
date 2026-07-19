@@ -130,7 +130,61 @@ test("getTemplateData preserves group order and formats measurements", () => {
     data.floors[1].rooms[0].humidity.valueClass,
     "mmm-hadisplay-value-humidity"
   );
+  assert.equal(data.floors[0].rooms[0].lighting.className, "mmm-hadisplay-light-on");
+  assert.match(data.floors[0].rooms[0].lighting.style, /^color: rgb\(/);
+  assert.deepEqual(data.floors[1].rooms[0].lighting, {
+    className: "mmm-hadisplay-light-on",
+    style: "color: rgb(129, 138, 244)"
+  });
   assert.equal(data.otherRooms[0].name, "Garage");
+  assert.deepEqual(data.otherRooms[0].lighting, {
+    className: "mmm-hadisplay-light-off",
+    style: ""
+  });
+});
+
+test("prepareLighting distinguishes absent, off, neutral, colour, and CCT lights", () => {
+  const instance = createInstance();
+  const emptyColor = {
+    color_mode: null,
+    rgb: null,
+    rgbw: null,
+    rgbww: null,
+    hs: null,
+    xy: null,
+    kelvin: null
+  };
+
+  assert.deepEqual(instance.prepareLighting({ available: false, on: false, colors: [] }), {
+    className: "mmm-hadisplay-light-unavailable",
+    style: ""
+  });
+  assert.deepEqual(instance.prepareLighting({ available: true, on: false, colors: [] }), {
+    className: "mmm-hadisplay-light-off",
+    style: ""
+  });
+  assert.deepEqual(
+    instance.prepareLighting({ available: true, on: true, colors: [emptyColor] }),
+    { className: "mmm-hadisplay-light-on", style: "" }
+  );
+
+  const colors = [
+    { ...emptyColor, color_mode: "hs", hs: [30, 20] },
+    { ...emptyColor, color_mode: "rgb", rgb: [255, 0, 0] }
+  ];
+  assert.deepEqual(instance.prepareLighting({ available: true, on: true, colors }), {
+    className: "mmm-hadisplay-light-on",
+    style: "color: rgb(244, 129, 129)"
+  });
+
+  const cctColors = [
+    { ...emptyColor, color_mode: "color_temp", kelvin: 2_000 },
+    { ...emptyColor, color_mode: "color_temp", kelvin: 6_000 }
+  ];
+  assert.deepEqual(instance.prepareLighting({ available: true, on: true, colors: cctColors }), {
+    className: "mmm-hadisplay-light-on",
+    style: "color: rgb(244, 222, 204)"
+  });
 });
 
 test("getTemplateData removes empty rooms and floor headings", () => {
@@ -140,7 +194,8 @@ test("getTemplateData removes empty rooms and floor headings", () => {
     temperature: null,
     humidity: null,
     pm25: null,
-    controls: []
+    controls: [],
+    lighting: { available: false, on: false, colors: [] }
   };
   const instance = createInstance({
     climateData: {

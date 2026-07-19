@@ -8,7 +8,7 @@
       <tbody>
         {% for floor in floors %}
           <tr class="dateheader mmm-hadisplay-section">
-            <td colspan="4" class="bright">{{ floor.name }}</td>
+            <td colspan="5" class="bright">{{ floor.name }}</td>
           </tr>
           {% for room in floor.rooms %}
             <tr class="normal mmm-hadisplay-room">
@@ -20,12 +20,15 @@
                 <span class="{{ room.humidity.valueClass }}">{{ room.humidity.value }}</span>
               </td>
               <td class="align-right">{{ room.pm25 }}</td>
+              <td class="align-right mmm-hadisplay-condition">
+                <span class="fas fa-fw fa-lightbulb mmm-hadisplay-light {{ room.lighting.className }}" style="{{ room.lighting.style }}" aria-hidden="true"></span>
+              </td>
             </tr>
           {% endfor %}
         {% endfor %}
         {% if otherRooms | length > 0 %}
           <tr class="dateheader mmm-hadisplay-section">
-            <td colspan="4" class="bright">Other areas</td>
+            <td colspan="5" class="bright">Other areas</td>
           </tr>
           {% for room in otherRooms %}
             <tr class="normal mmm-hadisplay-room">
@@ -37,6 +40,9 @@
                 <span class="{{ room.humidity.valueClass }}">{{ room.humidity.value }}</span>
               </td>
               <td class="align-right">{{ room.pm25 }}</td>
+              <td class="align-right mmm-hadisplay-condition">
+                <span class="fas fa-fw fa-lightbulb mmm-hadisplay-light {{ room.lighting.className }}" style="{{ room.lighting.style }}" aria-hidden="true"></span>
+              </td>
             </tr>
           {% endfor %}
         {% endif %}

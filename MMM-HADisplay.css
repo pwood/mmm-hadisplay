@@ -45,6 +45,22 @@
   color: #90caf9;
 }
 
+.mmm-hadisplay-condition {
+  width: 1%;
+}
+
+.mmm-hadisplay-light {
+  opacity: 1;
+}
+
+.mmm-hadisplay-light-unavailable {
+  opacity: 0.18;
+}
+
+.mmm-hadisplay-light-off {
+  opacity: 0.4;
+}
+
 .mmm-hadisplay-status {
   text-align: left;
 }

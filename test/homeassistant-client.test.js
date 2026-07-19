@@ -41,6 +41,8 @@ test("the fixed template includes all selection and grouping operations", () => 
     "label_devices('Climate Source')",
     "label_entities('Climate Control')",
     "label_devices('Climate Control')",
+    "label_entities('Lighting')",
+    "label_devices('Lighting')",
     "device_entities(device_id)",
     "climate.entities | unique",
     "entity_id[:7] == 'sensor.'",
@@ -51,6 +53,10 @@ test("the fixed template includes all selection and grouping operations", () => 
     "device_class == 'pm25'",
     "action in ['heating', 'preheating', 'cooling']",
     "action in ['humidifying', 'drying']",
+    "entity_id[:6] == 'light.'",
+    "is_state(entity_id, 'on')",
+    "rgb_color",
+    "color_temp_kelvin",
     "value > readings.temperature_value",
     "value > readings.humidity_value",
     "value > readings.pm25_value",
@@ -155,7 +161,26 @@ test("validateClimateData accepts the fixture and rejects malformed contracts", 
             temperature: { value: "14", unit: "°C" },
             humidity: null,
             pm25: null,
-            controls: []
+            controls: [],
+            lighting: { available: false, on: false, colors: [] }
+          }
+        ]
+      }),
+    HomeAssistantError
+  );
+  assert.throws(
+    () =>
+      validateClimateData({
+        floors: [],
+        other_rooms: [
+          {
+            id: "garage",
+            name: "Garage",
+            temperature: { value: 14, unit: "°C" },
+            humidity: null,
+            pm25: null,
+            controls: [],
+            lighting: { available: true, on: true, colors: [{ rgb: [255, 0, 0] }] }
           }
         ]
       }),

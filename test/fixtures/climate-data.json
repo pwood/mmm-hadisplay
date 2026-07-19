@@ -14,7 +14,15 @@
             { "metric": "temperature", "action": "heating" },
             { "metric": "temperature", "action": "heating" },
             { "metric": "humidity", "action": "drying" }
-          ]
+          ],
+          "lighting": {
+            "available": true,
+            "on": true,
+            "colors": [
+              { "color_mode": "hs", "rgb": null, "rgbw": null, "rgbww": null, "hs": [12, 90], "xy": null, "kelvin": null },
+              { "color_mode": "color_temp", "rgb": null, "rgbw": null, "rgbww": null, "hs": null, "xy": null, "kelvin": 2700 }
+            ]
+          }
         },
         {
           "id": "bathroom",
@@ -22,7 +30,8 @@
           "temperature": null,
           "humidity": null,
           "pm25": null,
-          "controls": []
+          "controls": [],
+          "lighting": { "available": false, "on": false, "colors": [] }
         }
       ]
     },
@@ -40,7 +49,15 @@
             { "metric": "temperature", "action": "cooling" },
             { "metric": "temperature", "action": "cooling" },
             { "metric": "humidity", "action": "humidifying" }
-          ]
+          ],
+          "lighting": {
+            "available": true,
+            "on": true,
+            "colors": [
+              { "color_mode": "hs", "rgb": null, "rgbw": null, "rgbww": null, "hs": [200, 30], "xy": null, "kelvin": null },
+              { "color_mode": "rgb", "rgb": [0, 20, 255], "rgbw": null, "rgbww": null, "hs": null, "xy": null, "kelvin": null }
+            ]
+          }
         }
       ]
     }
@@ -52,7 +69,8 @@
       "temperature": { "value": 14, "unit": "°C" },
       "humidity": null,
       "pm25": { "value": 8.1, "unit": "µg/m³" },
-      "controls": []
+      "controls": [],
+      "lighting": { "available": true, "on": false, "colors": [] }
     }
   ]
 }
