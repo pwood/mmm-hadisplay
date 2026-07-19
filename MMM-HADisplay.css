@@ -37,6 +37,8 @@
   font-size: 0.65em;
   line-height: 0;
   margin-left: 0.15em;
+  position: relative;
+  top: 5px;
   vertical-align: super;
 }
 
