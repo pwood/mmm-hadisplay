@@ -97,9 +97,11 @@ Module.register("MMM-HADisplay", {
   },
 
   prepareMeasurement(measurement, fractionDigits, control) {
-    const value = this.formatMeasurement(measurement, fractionDigits);
+    const available = measurement && Number.isFinite(measurement.value);
+    const value = available ? measurement.value.toFixed(fractionDigits) : "–";
+    const unit = available ? measurement.unit : "";
     if (!control) {
-      return { value, valueClass: "" };
+      return { value, unit, valueClass: "" };
     }
 
     const valueClass =
@@ -111,7 +113,8 @@ Module.register("MMM-HADisplay", {
 
     return {
       value,
-      valueClass: measurement ? valueClass : ""
+      unit,
+      valueClass: available ? valueClass : ""
     };
   },
 

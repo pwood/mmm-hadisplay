@@ -19,11 +19,13 @@ test("the display template renders floors, all rooms, missing values, and other 
           {
             name: "Bedroom",
             temperature: {
-              value: "21.3 °C",
+              value: "21.3",
+              unit: "°C",
               valueClass: "mmm-hadisplay-value-heating"
             },
             humidity: {
-              value: "49 %",
+              value: "49",
+              unit: "%",
               valueClass: "mmm-hadisplay-value-humidity"
             },
             pm25: {
@@ -43,8 +45,8 @@ test("the display template renders floors, all rooms, missing values, and other 
           },
           {
             name: "Bathroom",
-            temperature: { value: "–", valueClass: "" },
-            humidity: { value: "–", valueClass: "" },
+            temperature: { value: "–", unit: "", valueClass: "" },
+            humidity: { value: "–", unit: "", valueClass: "" },
             pm25: {
               className: "mmm-hadisplay-pm25-unavailable",
               label: "PM2.5 unavailable"
@@ -66,8 +68,8 @@ test("the display template renders floors, all rooms, missing values, and other 
     otherRooms: [
       {
         name: "Garage",
-        temperature: { value: "14.0 °C", valueClass: "" },
-        humidity: { value: "–", valueClass: "" },
+        temperature: { value: "14.0", unit: "°C", valueClass: "" },
+        humidity: { value: "–", unit: "", valueClass: "" },
         pm25: {
           className: "mmm-hadisplay-pm25-low",
           label: "PM2.5 8.1 µg/m³, low"
@@ -88,7 +90,7 @@ test("the display template renders floors, all rooms, missing values, and other 
     "Bathroom",
     "Other areas",
     "Garage",
-    "21.3 °C",
+    "21.3",
     "Data unavailable"
   ]) {
     assert.ok(output.includes(text), `missing ${text}`);
@@ -117,6 +119,11 @@ test("the display template renders floors, all rooms, missing values, and other 
   assert.ok(output.includes("mmm-hadisplay-pm25-unavailable"));
   assert.ok(output.includes("mmm-hadisplay-pm25-low"));
   assert.ok(output.includes('aria-label="PM2.5 8.1 µg/m³, low"'));
+  assert.ok(
+    output.includes('<sup class="mmm-hadisplay-measurement-unit">°C</sup>')
+  );
+  assert.ok(output.includes('<sup class="mmm-hadisplay-measurement-unit">%</sup>'));
+  assert.equal((output.match(/mmm-hadisplay-measurement-unit/g) || []).length, 3);
   assert.equal((template.match(/<tr class="normal mmm-hadisplay-room">/g) || []).length, 1);
   assert.equal((template.match(/\{\{ renderRoom\(room\) \}\}/g) || []).length, 2);
 });
@@ -147,6 +154,10 @@ test("module CSS reserves strong colors for active measurements", () => {
   assert.match(css, /\.mmm-hadisplay-value-heating\s*{[^}]*color:/s);
   assert.match(css, /\.mmm-hadisplay-value-cooling\s*{[^}]*color:/s);
   assert.match(css, /\.mmm-hadisplay-value-humidity\s*{[^}]*color:/s);
+  assert.match(
+    css,
+    /\.mmm-hadisplay-measurement-unit\s*{[^}]*font-size:\s*0\.65em[^}]*vertical-align:\s*super/s
+  );
   assert.doesNotMatch(css, /\bbackground(?:-color)?\s*:/i);
   assert.match(css, /\.mmm-hadisplay-pm25-unavailable\s*{[^}]*opacity:\s*0\.1/s);
   assert.match(css, /\.mmm-hadisplay-pm25-low\s*{[^}]*color:\s*inherit[^}]*opacity:\s*0\.4/s);

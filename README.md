@@ -128,7 +128,7 @@ The module sends Home Assistant requests only from its node helper and never log
 - The lightbulb column follows the `Lighting` label and is always present for every displayed room.
 - The door column follows `Security`-labelled door binary sensors and is always present for every displayed room.
 - Floor and room order is preserved as returned by Home Assistant.
-- Temperature uses one decimal place and humidity uses whole numbers.
+- Temperature uses one decimal place and humidity uses whole numbers; their units are rendered smaller and superscript.
 - Active climate-control colours are shown only while their Home Assistant action is heating, cooling, humidifying, or drying.
 - After a transient error, the last successful table remains visible with a dimmed **Data unavailable** note.
 

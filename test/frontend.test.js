@@ -128,11 +128,13 @@ test("getTemplateData preserves group order and formats measurements", () => {
     ["Bedroom"]
   );
   assert.deepEqual(data.floors[0].rooms[0].temperature, {
-    value: "21.3 °C",
+    value: "21.3",
+    unit: "°C",
     valueClass: "mmm-hadisplay-value-heating"
   });
   assert.deepEqual(data.floors[0].rooms[0].humidity, {
-    value: "49 %",
+    value: "49",
+    unit: "%",
     valueClass: "mmm-hadisplay-value-humidity"
   });
   assert.deepEqual(data.floors[0].rooms[0].pm25, {

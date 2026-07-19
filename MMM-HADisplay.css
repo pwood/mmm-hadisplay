@@ -33,6 +33,13 @@
   padding-left: 12px;
 }
 
+.mmm-hadisplay-measurement-unit {
+  font-size: 0.65em;
+  line-height: 0;
+  margin-left: 0.15em;
+  vertical-align: super;
+}
+
 .mmm-hadisplay-value-heating {
   color: #ff8a65;
 }

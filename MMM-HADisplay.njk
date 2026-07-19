@@ -2,10 +2,10 @@
 <tr class="normal mmm-hadisplay-room">
   <td class="align-left">{{ room.name }}</td>
   <td class="align-right">
-    <span class="{{ room.temperature.valueClass }}">{{ room.temperature.value }}</span>
+    <span class="{{ room.temperature.valueClass }}">{{ room.temperature.value }}{% if room.temperature.unit %}<sup class="mmm-hadisplay-measurement-unit">{{ room.temperature.unit }}</sup>{% endif %}</span>
   </td>
   <td class="align-right">
-    <span class="{{ room.humidity.valueClass }}">{{ room.humidity.value }}</span>
+    <span class="{{ room.humidity.valueClass }}">{{ room.humidity.value }}{% if room.humidity.unit %}<sup class="mmm-hadisplay-measurement-unit">{{ room.humidity.unit }}</sup>{% endif %}</span>
   </td>
   <td class="align-right mmm-hadisplay-condition">
     <span class="fas fa-fw fa-smog mmm-hadisplay-pm25 {{ room.pm25.className }}" role="img" aria-label="{{ room.pm25.label }}" title="{{ room.pm25.label }}"></span>
