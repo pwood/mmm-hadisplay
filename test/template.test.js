@@ -45,7 +45,7 @@ test("the display template renders floors, all rooms, missing values, and other 
     "First floor",
     "Bedroom",
     "Bathroom",
-    "Other rooms",
+    "Other areas",
     "Garage",
     "21.3 °C",
     "Data unavailable"
@@ -55,6 +55,7 @@ test("the display template renders floors, all rooms, missing values, and other 
   assert.ok(output.includes('class="dateheader mmm-hadisplay-section"'));
   assert.ok(output.includes('class="align-left"'));
   assert.ok(!output.includes('class="bright align-left"'));
+  assert.ok(output.includes('class="xsmall mmm-hadisplay-table"'));
   assert.ok(!output.includes("<thead>"));
   assert.ok(output.includes('class="align-right"'));
 });
@@ -68,6 +69,7 @@ test("loading and initial error states do not render the table", () => {
     otherRooms: []
   });
   assert.ok(loading.includes("Loading…"));
+  assert.ok(loading.includes('class="xsmall dimmed mmm-hadisplay-status"'));
   assert.ok(!loading.includes("<table"));
 
   const error = nunjucks.renderString(template, {

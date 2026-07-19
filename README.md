@@ -1,6 +1,6 @@
 # MMM-HADisplay
 
-`MMM-HADisplay` is a monochrome [MagicMirror²](https://magicmirror.builders/) module that displays room climate readings from Home Assistant. Rooms are grouped by Home Assistant floor, with areas that have no floor shown under **Other rooms**.
+`MMM-HADisplay` is a monochrome [MagicMirror²](https://magicmirror.builders/) module that displays room climate readings from Home Assistant. Rooms are grouped by Home Assistant floor, with areas that have no floor shown under **Other areas**.
 
 The module posts a fixed Jinja template to Home Assistant's `/api/template` endpoint. For every area with at least one available climate reading, it shows the maximum current temperature, humidity, and PM2.5 value from selected sensors. Missing values within an otherwise populated room are displayed as a dash.
 
@@ -45,7 +45,7 @@ Add the module to `config/config.js`:
 {
   module: "MMM-HADisplay",
   position: "top_left",
-  header: "Home Climate",
+  header: "Home Environment",
   config: {
     homeAssistantUrl: "http://homeassistant.local:8123",
     accessToken: "YOUR_LONG_LIVED_ACCESS_TOKEN",

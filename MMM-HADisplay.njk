@@ -1,10 +1,10 @@
 <div class="mmm-hadisplay">
   {% if loading %}
-    <div class="small dimmed mmm-hadisplay-status">Loading…</div>
+    <div class="xsmall dimmed mmm-hadisplay-status">Loading…</div>
   {% elif initialError %}
-    <div class="small dimmed mmm-hadisplay-status">Home Assistant data unavailable</div>
+    <div class="xsmall dimmed mmm-hadisplay-status">Home Assistant data unavailable</div>
   {% else %}
-    <table class="small mmm-hadisplay-table">
+    <table class="xsmall mmm-hadisplay-table">
       <tbody>
         {% for floor in floors %}
           <tr class="dateheader mmm-hadisplay-section">
@@ -21,7 +21,7 @@
         {% endfor %}
         {% if otherRooms | length > 0 %}
           <tr class="dateheader mmm-hadisplay-section">
-            <td colspan="4" class="bright">Other rooms</td>
+            <td colspan="4" class="bright">Other areas</td>
           </tr>
           {% for room in otherRooms %}
             <tr class="normal mmm-hadisplay-room">
