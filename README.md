@@ -42,6 +42,8 @@ No target values or direction indicators are requested or displayed, keeping the
 
 Create a third label named exactly `Lighting` and apply it to individual `light` or `switch` entities, or to their parent devices. The `switch` domain is supported for simple on/off lights whose integration does not expose a Home Assistant `light` entity. Lighting is optional. An area with selected lights receives a row even when it has no selected environmental sensors.
 
+For a labelled device, the module selects all `light` entities and its primary `switch` entity. Auxiliary switches such as network indicators, turbo modes, and relay configuration controls are ignored. When an integration does not identify a primary switch, a device with exactly one switch uses that switch as a fallback. A directly labelled switch is always selected.
+
 The lightbulb at the right of every displayed room indicates its lighting state:
 
 - A very dim outlined bulb means the area has no selected light.
@@ -134,6 +136,8 @@ Confirm that the `climate` or `humidifier` entity—or its parent device—has t
 ### A lightbulb has the wrong state or tint
 
 Confirm that the `light` or `switch` entity—or its parent device—has the exact `Lighting` label and belongs to the same Home Assistant area. The tint reflects current colour attributes from `light` entities that are on. Switch entities do not provide colour data, and some light integrations omit it as well.
+
+For switch-based lights, prefer labelling the parent device or the exact relay entity. The module ignores named auxiliary switches exposed by the same device.
 
 ## Development
 
