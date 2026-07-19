@@ -2,7 +2,7 @@
 
 `MMM-HADisplay` is a monochrome [MagicMirror²](https://magicmirror.builders/) module that displays room climate readings from Home Assistant. Rooms are grouped by Home Assistant floor, with areas that have no floor shown under **Other rooms**.
 
-The module posts a fixed Jinja template to Home Assistant's `/api/template` endpoint. For every area it shows the maximum current temperature, humidity, and PM2.5 value from selected sensors. Missing values are displayed as a dash.
+The module posts a fixed Jinja template to Home Assistant's `/api/template` endpoint. For every area with at least one available climate reading, it shows the maximum current temperature, humidity, and PM2.5 value from selected sensors. Missing values within an otherwise populated room are displayed as a dash.
 
 ## Requirements
 
@@ -74,7 +74,7 @@ The module sends Home Assistant requests only from its node helper and never log
 
 - Data is requested immediately at startup and then once per `updateInterval`.
 - Polling stops while the module is suspended and refreshes immediately when resumed.
-- All Home Assistant areas are displayed, even if no selected sensor currently has a value.
+- Rooms with no current temperature, humidity, or PM2.5 value are omitted.
 - Floor and room order is preserved as returned by Home Assistant.
 - Temperature uses one decimal place; humidity and PM2.5 use whole numbers.
 - After a transient error, the last successful table remains visible with a dimmed **Data unavailable** note.

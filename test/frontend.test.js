@@ -110,13 +110,37 @@ test("getTemplateData preserves group order and formats measurements", () => {
   );
   assert.deepEqual(
     data.floors[0].rooms.map((room) => room.name),
-    ["Bedroom", "Bathroom"]
+    ["Bedroom"]
   );
   assert.equal(data.floors[0].rooms[0].temperature, "21.3 °C");
   assert.equal(data.floors[0].rooms[0].humidity, "49 %");
   assert.equal(data.floors[0].rooms[0].pm25, "–");
   assert.equal(data.floors[1].rooms[0].pm25, "13 µg/m³");
   assert.equal(data.otherRooms[0].name, "Garage");
+});
+
+test("getTemplateData removes empty rooms and floor headings", () => {
+  const emptyRoom = {
+    id: "empty",
+    name: "Empty room",
+    temperature: null,
+    humidity: null,
+    pm25: null
+  };
+  const instance = createInstance({
+    climateData: {
+      floors: [
+        { id: "empty_floor", name: "Empty floor", rooms: [emptyRoom] },
+        { id: "used_floor", name: "Used floor", rooms: [emptyRoom, fixture.floors[0].rooms[0]] }
+      ],
+      other_rooms: [emptyRoom]
+    }
+  });
+
+  const data = instance.getTemplateData();
+  assert.deepEqual(data.floors.map((floor) => floor.name), ["Used floor"]);
+  assert.deepEqual(data.floors[0].rooms.map((room) => room.name), ["Bedroom"]);
+  assert.deepEqual(data.otherRooms, []);
 });
 
 test("start, suspend, and resume manage polling without overlapping timers", (context) => {

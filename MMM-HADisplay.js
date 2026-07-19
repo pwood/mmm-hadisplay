@@ -97,16 +97,24 @@ Module.register("MMM-HADisplay", {
     };
   },
 
+  hasMeasurements(room) {
+    return room.temperature !== null || room.humidity !== null || room.pm25 !== null;
+  },
+
   getTemplateData() {
     const floors = this.climateData
       ? this.climateData.floors.map((floor) => ({
           id: floor.id,
           name: floor.name,
-          rooms: floor.rooms.map((room) => this.prepareRoom(room))
-        }))
+          rooms: floor.rooms
+            .filter((room) => this.hasMeasurements(room))
+            .map((room) => this.prepareRoom(room))
+        })).filter((floor) => floor.rooms.length > 0)
       : [];
     const otherRooms = this.climateData
-      ? this.climateData.other_rooms.map((room) => this.prepareRoom(room))
+      ? this.climateData.other_rooms
+          .filter((room) => this.hasMeasurements(room))
+          .map((room) => this.prepareRoom(room))
       : [];
 
     return {

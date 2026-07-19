@@ -19,6 +19,7 @@
 }
 
 .mmm-hadisplay-section td {
+  font-size: 0.9em;
   padding-bottom: 2px;
   padding-top: 10px;
   text-transform: uppercase;
@@ -32,6 +33,10 @@
 .mmm-hadisplay-table td:first-child {
   padding-left: 0;
   width: 100%;
+}
+
+.mmm-hadisplay-room td:first-child {
+  padding-left: 12px;
 }
 
 .mmm-hadisplay-status {

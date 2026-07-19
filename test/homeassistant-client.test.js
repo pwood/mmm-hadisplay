@@ -54,6 +54,7 @@ test("the fixed template includes all selection and grouping operations", () => 
     "for area_id in floor_areas(floor_id)",
     "for area_id in areas()",
     "area_id not in result.assigned_areas",
+    "readings.temperature is not none or readings.humidity is not none or readings.pm25 is not none",
     "to_json"
   ];
 
