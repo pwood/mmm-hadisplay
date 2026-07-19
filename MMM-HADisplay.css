@@ -45,6 +45,22 @@
   color: #90caf9;
 }
 
+.mmm-hadisplay-pm25-unavailable {
+  opacity: 0.18;
+}
+
+.mmm-hadisplay-pm25-low {
+  opacity: 0.4;
+}
+
+.mmm-hadisplay-pm25-medium {
+  opacity: 0.7;
+}
+
+.mmm-hadisplay-pm25-high {
+  opacity: 1;
+}
+
 .mmm-hadisplay-condition {
   width: 1%;
 }

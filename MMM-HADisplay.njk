@@ -7,7 +7,9 @@
   <td class="align-right">
     <span class="{{ room.humidity.valueClass }}">{{ room.humidity.value }}</span>
   </td>
-  <td class="align-right">{{ room.pm25 }}</td>
+  <td class="align-right mmm-hadisplay-condition">
+    <span class="fas fa-fw fa-smog mmm-hadisplay-pm25 {{ room.pm25.className }}" role="img" aria-label="{{ room.pm25.label }}" title="{{ room.pm25.label }}"></span>
+  </td>
   <td class="align-right mmm-hadisplay-condition">
     <span class="{{ room.lighting.iconClass }} fa-fw fa-lightbulb mmm-hadisplay-light {{ room.lighting.className }}" style="{{ room.lighting.style }}" aria-hidden="true"></span>
   </td>

@@ -115,6 +115,21 @@ Module.register("MMM-HADisplay", {
     };
   },
 
+  preparePm25(measurement) {
+    if (!measurement || !Number.isFinite(measurement.value)) {
+      return {
+        className: "mmm-hadisplay-pm25-unavailable",
+        label: "PM2.5 unavailable"
+      };
+    }
+
+    const category = measurement.value < 10 ? "low" : measurement.value < 50 ? "medium" : "high";
+    return {
+      className: `mmm-hadisplay-pm25-${category}`,
+      label: `PM2.5 ${this.formatMeasurement(measurement, 1)}, ${category}`
+    };
+  },
+
   prepareLighting(lighting) {
     if (!lighting.available) {
       return {
@@ -173,7 +188,7 @@ Module.register("MMM-HADisplay", {
       name: room.name,
       temperature: this.prepareMeasurement(room.temperature, 1, temperatureControl),
       humidity: this.prepareMeasurement(room.humidity, 0, humidityControl),
-      pm25: this.formatMeasurement(room.pm25, 0),
+      pm25: this.preparePm25(room.pm25),
       lighting: this.prepareLighting(room.lighting),
       security: this.prepareSecurity(room.security)
     };

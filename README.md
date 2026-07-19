@@ -2,7 +2,7 @@
 
 `MMM-HADisplay` is a restrained [MagicMirror²](https://magicmirror.builders/) module that displays room climate readings, lighting state, and door security from Home Assistant. Rooms are grouped by Home Assistant floor, with areas that have no floor shown under **Other areas**. Colour is reserved for active climate adjustments and lights that are currently on.
 
-The module posts a fixed Jinja template to Home Assistant's `/api/template` endpoint. For every area with at least one available climate reading, it shows the maximum current temperature, humidity, and PM2.5 value from selected sensors. Missing values within an otherwise populated room are displayed as a dash.
+The module posts a fixed Jinja template to Home Assistant's `/api/template` endpoint. For every area with at least one available climate reading, it shows the maximum current temperature and humidity from selected sensors, plus a PM2.5 air-quality indicator. Missing temperature and humidity values within an otherwise populated room are displayed as a dash.
 
 ## Requirements
 
@@ -25,6 +25,17 @@ Selected entities must:
 - Belong to a Home Assistant area.
 
 When several selected sensors of the same device class are in one area, the module displays the largest numeric state. Unknown, unavailable, and non-numeric states are ignored. Sensors without an area are omitted.
+
+### Air quality
+
+PM2.5 is displayed as a grey `fa-smog` icon whose opacity reflects the largest selected reading in the area:
+
+- Below 10 is low and uses a dim icon.
+- From 10 to below 50 is medium and uses a stronger icon.
+- At least 50 is high and uses a full-opacity icon.
+- A very dim icon means no PM2.5 reading is available.
+
+The exact reading, rounded to one decimal place, remains available as the icon's accessible label and tooltip.
 
 ### Active climate controls
 
@@ -113,11 +124,11 @@ The module sends Home Assistant requests only from its node helper and never log
 - Data is requested immediately at startup and then once per `updateInterval`.
 - The first successful table display fades in; subsequent refreshes update without a transition.
 - Polling stops while the module is suspended and refreshes immediately when resumed.
-- Rooms with neither a current environmental reading, a selected light, nor a selected security door are omitted. Light-only and security-only rooms show dashes in all three measurement columns.
+- Rooms with neither a current environmental reading, a selected light, nor a selected security door are omitted. Light-only and security-only rooms show dashes for temperature and humidity plus an unavailable PM2.5 icon.
 - The lightbulb column follows the `Lighting` label and is always present for every displayed room.
 - The door column follows `Security`-labelled door binary sensors and is always present for every displayed room.
 - Floor and room order is preserved as returned by Home Assistant.
-- Temperature uses one decimal place; humidity and PM2.5 use whole numbers.
+- Temperature uses one decimal place and humidity uses whole numbers.
 - Active climate-control colours are shown only while their Home Assistant action is heating, cooling, humidifying, or drying.
 - After a transient error, the last successful table remains visible with a dimmed **Data unavailable** note.
 

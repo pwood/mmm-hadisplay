@@ -135,8 +135,14 @@ test("getTemplateData preserves group order and formats measurements", () => {
     value: "49 %",
     valueClass: "mmm-hadisplay-value-humidity"
   });
-  assert.equal(data.floors[0].rooms[0].pm25, "–");
-  assert.equal(data.floors[1].rooms[0].pm25, "13 µg/m³");
+  assert.deepEqual(data.floors[0].rooms[0].pm25, {
+    className: "mmm-hadisplay-pm25-unavailable",
+    label: "PM2.5 unavailable"
+  });
+  assert.deepEqual(data.floors[1].rooms[0].pm25, {
+    className: "mmm-hadisplay-pm25-medium",
+    label: "PM2.5 12.6 µg/m³, medium"
+  });
   assert.equal(
     data.floors[1].rooms[0].temperature.valueClass,
     "mmm-hadisplay-value-cooling"
@@ -163,6 +169,10 @@ test("getTemplateData preserves group order and formats measurements", () => {
     label: "Door open"
   });
   assert.equal(data.otherRooms[0].name, "Garage");
+  assert.deepEqual(data.otherRooms[0].pm25, {
+    className: "mmm-hadisplay-pm25-low",
+    label: "PM2.5 8.1 µg/m³, low"
+  });
   assert.deepEqual(data.otherRooms[0].lighting, {
     iconClass: "far",
     className: "mmm-hadisplay-light-off",
@@ -172,6 +182,31 @@ test("getTemplateData preserves group order and formats measurements", () => {
     iconName: "fa-door-closed",
     className: "mmm-hadisplay-security-unknown",
     label: "Door state unavailable"
+  });
+});
+
+test("preparePm25 applies unavailable, low, medium, and high thresholds", () => {
+  const instance = createInstance();
+
+  assert.deepEqual(instance.preparePm25(null), {
+    className: "mmm-hadisplay-pm25-unavailable",
+    label: "PM2.5 unavailable"
+  });
+  assert.deepEqual(instance.preparePm25({ value: 9.9, unit: "µg/m³" }), {
+    className: "mmm-hadisplay-pm25-low",
+    label: "PM2.5 9.9 µg/m³, low"
+  });
+  assert.deepEqual(instance.preparePm25({ value: 10, unit: "µg/m³" }), {
+    className: "mmm-hadisplay-pm25-medium",
+    label: "PM2.5 10.0 µg/m³, medium"
+  });
+  assert.deepEqual(instance.preparePm25({ value: 49.9, unit: "µg/m³" }), {
+    className: "mmm-hadisplay-pm25-medium",
+    label: "PM2.5 49.9 µg/m³, medium"
+  });
+  assert.deepEqual(instance.preparePm25({ value: 50, unit: "µg/m³" }), {
+    className: "mmm-hadisplay-pm25-high",
+    label: "PM2.5 50.0 µg/m³, high"
   });
 });
 
@@ -297,7 +332,10 @@ test("getTemplateData retains rooms that only have labelled lights", () => {
   assert.equal(data.floors[0].rooms[0].name, "Hallway");
   assert.equal(data.floors[0].rooms[0].temperature.value, "–");
   assert.equal(data.floors[0].rooms[0].humidity.value, "–");
-  assert.equal(data.floors[0].rooms[0].pm25, "–");
+  assert.equal(
+    data.floors[0].rooms[0].pm25.className,
+    "mmm-hadisplay-pm25-unavailable"
+  );
   assert.equal(data.floors[0].rooms[0].lighting.className, "mmm-hadisplay-light-off");
 });
 
@@ -323,7 +361,7 @@ test("getTemplateData retains rooms that only have labelled security doors", () 
   assert.equal(room.name, "Side door");
   assert.equal(room.temperature.value, "–");
   assert.equal(room.humidity.value, "–");
-  assert.equal(room.pm25, "–");
+  assert.equal(room.pm25.className, "mmm-hadisplay-pm25-unavailable");
   assert.equal(room.lighting.className, "mmm-hadisplay-light-unavailable");
   assert.equal(room.security.className, "mmm-hadisplay-security-clear");
 });
