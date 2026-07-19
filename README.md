@@ -40,7 +40,7 @@ No target values or direction indicators are requested or displayed, keeping the
 
 ### Lighting
 
-Create a third label named exactly `Lighting` and apply it to individual `light` entities or to their parent devices. Lighting is optional and does not create a room by itself.
+Create a third label named exactly `Lighting` and apply it to individual `light` entities or to their parent devices. Lighting is optional. An area with selected lights receives a row even when it has no selected environmental sensors.
 
 The lightbulb at the right of every displayed room indicates its lighting state:
 
@@ -97,8 +97,9 @@ The module sends Home Assistant requests only from its node helper and never log
 ## Display and refresh behaviour
 
 - Data is requested immediately at startup and then once per `updateInterval`.
+- The first successful table display fades in; subsequent refreshes update without a transition.
 - Polling stops while the module is suspended and refreshes immediately when resumed.
-- Rooms with no current temperature, humidity, or PM2.5 value are omitted.
+- Rooms with neither a current environmental reading nor a selected light are omitted. Light-only rooms show dashes in all three measurement columns.
 - The lightbulb column follows the `Lighting` label and is always present for every displayed room.
 - Floor and room order is preserved as returned by Home Assistant.
 - Temperature uses one decimal place; humidity and PM2.5 use whole numbers.

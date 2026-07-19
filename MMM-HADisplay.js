@@ -67,14 +67,15 @@ Module.register("MMM-HADisplay", {
     }
 
     if (notification === "HADISPLAY_DATA") {
+      const isFirstDisplay = this.climateData === null;
       this.climateData = payload.data;
       this.initialError = false;
       this.stale = false;
-      this.updateDom(1_000);
+      this.updateDom(isFirstDisplay ? 1_000 : 0);
     } else if (notification === "HADISPLAY_ERROR") {
       this.initialError = this.climateData === null;
       this.stale = this.climateData !== null;
-      this.updateDom(1_000);
+      this.updateDom(0);
     }
   },
 
@@ -269,8 +270,13 @@ Module.register("MMM-HADisplay", {
     };
   },
 
-  hasMeasurements(room) {
-    return room.temperature !== null || room.humidity !== null || room.pm25 !== null;
+  hasDisplayData(room) {
+    return (
+      room.temperature !== null ||
+      room.humidity !== null ||
+      room.pm25 !== null ||
+      room.lighting.available
+    );
   },
 
   getTemplateData() {
@@ -279,13 +285,13 @@ Module.register("MMM-HADisplay", {
           id: floor.id,
           name: floor.name,
           rooms: floor.rooms
-            .filter((room) => this.hasMeasurements(room))
+            .filter((room) => this.hasDisplayData(room))
             .map((room) => this.prepareRoom(room))
         })).filter((floor) => floor.rooms.length > 0)
       : [];
     const otherRooms = this.climateData
       ? this.climateData.other_rooms
-          .filter((room) => this.hasMeasurements(room))
+          .filter((room) => this.hasDisplayData(room))
           .map((room) => this.prepareRoom(room))
       : [];
 

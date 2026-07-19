@@ -66,10 +66,10 @@ test("fetchData routes requests with the module identifier", () => {
 });
 
 test("socket responses are instance-scoped and preserve stale data on errors", () => {
-  let updates = 0;
+  const updateSpeeds = [];
   const instance = createInstance({
-    updateDom() {
-      updates += 1;
+    updateDom(speed) {
+      updateSpeeds.push(speed);
     }
   });
 
@@ -97,7 +97,13 @@ test("socket responses are instance-scoped and preserve stale data on errors", (
   });
   assert.equal(instance.climateData, fixture);
   assert.equal(instance.stale, true);
-  assert.equal(updates, 3);
+
+  instance.socketNotificationReceived("HADISPLAY_DATA", {
+    identifier: instance.identifier,
+    data: fixture
+  });
+  assert.equal(instance.stale, false);
+  assert.deepEqual(updateSpeeds, [0, 1_000, 0, 0]);
 });
 
 test("getTemplateData preserves group order and formats measurements", () => {
@@ -211,6 +217,31 @@ test("getTemplateData removes empty rooms and floor headings", () => {
   assert.deepEqual(data.floors.map((floor) => floor.name), ["Used floor"]);
   assert.deepEqual(data.floors[0].rooms.map((room) => room.name), ["Bedroom"]);
   assert.deepEqual(data.otherRooms, []);
+});
+
+test("getTemplateData retains rooms that only have labelled lights", () => {
+  const lightOnlyRoom = {
+    id: "hallway",
+    name: "Hallway",
+    temperature: null,
+    humidity: null,
+    pm25: null,
+    controls: [],
+    lighting: { available: true, on: false, colors: [] }
+  };
+  const instance = createInstance({
+    climateData: {
+      floors: [{ id: "ground_floor", name: "Ground floor", rooms: [lightOnlyRoom] }],
+      other_rooms: []
+    }
+  });
+
+  const data = instance.getTemplateData();
+  assert.equal(data.floors[0].rooms[0].name, "Hallway");
+  assert.equal(data.floors[0].rooms[0].temperature.value, "–");
+  assert.equal(data.floors[0].rooms[0].humidity.value, "–");
+  assert.equal(data.floors[0].rooms[0].pm25, "–");
+  assert.equal(data.floors[0].rooms[0].lighting.className, "mmm-hadisplay-light-off");
 });
 
 test("start, suspend, and resume manage polling without overlapping timers", (context) => {
