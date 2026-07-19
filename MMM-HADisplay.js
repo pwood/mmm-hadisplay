@@ -243,14 +243,19 @@ Module.register("MMM-HADisplay", {
 
   prepareLighting(lighting) {
     if (!lighting.available) {
-      return { className: "mmm-hadisplay-light-unavailable", style: "" };
+      return {
+        iconClass: "far",
+        className: "mmm-hadisplay-light-unavailable",
+        style: ""
+      };
     }
     if (!lighting.on) {
-      return { className: "mmm-hadisplay-light-off", style: "" };
+      return { iconClass: "far", className: "mmm-hadisplay-light-off", style: "" };
     }
 
     const rgb = this.getRepresentativeLightColor(lighting.colors);
     return {
+      iconClass: "fas",
       className: "mmm-hadisplay-light-on",
       style: rgb ? `color: rgb(${rgb.join(", ")})` : ""
     };

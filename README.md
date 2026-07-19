@@ -44,9 +44,9 @@ Create a third label named exactly `Lighting` and apply it to individual `light`
 
 The lightbulb at the right of every displayed room indicates its lighting state:
 
-- Very dim means the area has no selected light.
-- Dim means the area has selected lights, but none is on.
-- Normal brightness means at least one selected light is on.
+- A very dim outlined bulb means the area has no selected light.
+- A dim outlined bulb means the area has selected lights, but none is on.
+- A solid bulb at normal brightness means at least one selected light is on.
 
 When an active `light` entity reports a colour, the bulb receives a softened version of the most saturated active colour. If the active lights report only colour temperature, their current Kelvin values are averaged and shown as a subtle warm or cool tint. On/off lights exposed as either `light` or `switch`, and brightness-only lights, use the normal text colour. Brightness levels are intentionally ignored.
 

@@ -28,6 +28,7 @@ test("the display template renders floors, all rooms, missing values, and other 
             },
             pm25: "–",
             lighting: {
+              iconClass: "fas",
               className: "mmm-hadisplay-light-on",
               style: "color: rgb(244, 129, 129)"
             }
@@ -37,7 +38,11 @@ test("the display template renders floors, all rooms, missing values, and other 
             temperature: { value: "–", valueClass: "" },
             humidity: { value: "–", valueClass: "" },
             pm25: "–",
-            lighting: { className: "mmm-hadisplay-light-unavailable", style: "" }
+            lighting: {
+              iconClass: "far",
+              className: "mmm-hadisplay-light-unavailable",
+              style: ""
+            }
           }
         ]
       }
@@ -48,7 +53,7 @@ test("the display template renders floors, all rooms, missing values, and other 
         temperature: { value: "14.0 °C", valueClass: "" },
         humidity: { value: "–", valueClass: "" },
         pm25: "8 µg/m³",
-        lighting: { className: "mmm-hadisplay-light-off", style: "" }
+        lighting: { iconClass: "far", className: "mmm-hadisplay-light-off", style: "" }
       }
     ]
   });
@@ -74,6 +79,7 @@ test("the display template renders floors, all rooms, missing values, and other 
   assert.ok(output.includes('class="align-right"'));
   assert.ok(output.includes('colspan="5"'));
   assert.ok(output.includes("fas fa-fw fa-lightbulb"));
+  assert.ok(output.includes("far fa-fw fa-lightbulb"));
   assert.ok(output.includes("mmm-hadisplay-light-unavailable"));
   assert.ok(output.includes("mmm-hadisplay-light-off"));
   assert.ok(output.includes("color: rgb(244, 129, 129)"));

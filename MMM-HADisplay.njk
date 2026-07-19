@@ -21,7 +21,7 @@
               </td>
               <td class="align-right">{{ room.pm25 }}</td>
               <td class="align-right mmm-hadisplay-condition">
-                <span class="fas fa-fw fa-lightbulb mmm-hadisplay-light {{ room.lighting.className }}" style="{{ room.lighting.style }}" aria-hidden="true"></span>
+                <span class="{{ room.lighting.iconClass }} fa-fw fa-lightbulb mmm-hadisplay-light {{ room.lighting.className }}" style="{{ room.lighting.style }}" aria-hidden="true"></span>
               </td>
             </tr>
           {% endfor %}
@@ -41,7 +41,7 @@
               </td>
               <td class="align-right">{{ room.pm25 }}</td>
               <td class="align-right mmm-hadisplay-condition">
-                <span class="fas fa-fw fa-lightbulb mmm-hadisplay-light {{ room.lighting.className }}" style="{{ room.lighting.style }}" aria-hidden="true"></span>
+                <span class="{{ room.lighting.iconClass }} fa-fw fa-lightbulb mmm-hadisplay-light {{ room.lighting.className }}" style="{{ room.lighting.style }}" aria-hidden="true"></span>
               </td>
             </tr>
           {% endfor %}
