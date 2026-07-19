@@ -18,14 +18,24 @@ test("the display template renders floors, all rooms, missing values, and other 
         rooms: [
           {
             name: "Bedroom",
-            temperature: "21.3 °C",
-            humidity: "49 %",
+            temperature: {
+              value: "21.3 °C",
+              valueClass: "mmm-hadisplay-value-heating",
+              direction: "↗",
+              target: "24.0 °C"
+            },
+            humidity: {
+              value: "49 %",
+              valueClass: "mmm-hadisplay-value-humidity",
+              direction: "↘",
+              target: "45 %"
+            },
             pm25: "–"
           },
           {
             name: "Bathroom",
-            temperature: "–",
-            humidity: "–",
+            temperature: { value: "–", valueClass: "", direction: "", target: "" },
+            humidity: { value: "–", valueClass: "", direction: "", target: "" },
             pm25: "–"
           }
         ]
@@ -34,8 +44,8 @@ test("the display template renders floors, all rooms, missing values, and other 
     otherRooms: [
       {
         name: "Garage",
-        temperature: "14.0 °C",
-        humidity: "–",
+        temperature: { value: "14.0 °C", valueClass: "", direction: "", target: "" },
+        humidity: { value: "–", valueClass: "", direction: "", target: "" },
         pm25: "8 µg/m³"
       }
     ]
@@ -48,6 +58,8 @@ test("the display template renders floors, all rooms, missing values, and other 
     "Other areas",
     "Garage",
     "21.3 °C",
+    "↗ 24.0 °C",
+    "↘ 45 %",
     "Data unavailable"
   ]) {
     assert.ok(output.includes(text), `missing ${text}`);
@@ -55,6 +67,8 @@ test("the display template renders floors, all rooms, missing values, and other 
   assert.ok(output.includes('class="dateheader mmm-hadisplay-section"'));
   assert.ok(output.includes('class="align-left"'));
   assert.ok(!output.includes('class="bright align-left"'));
+  assert.ok(output.includes('class="mmm-hadisplay-value-heating"'));
+  assert.ok(output.includes('class="mmm-hadisplay-target"'));
   assert.ok(!output.includes("<thead>"));
   assert.ok(output.includes('class="align-right"'));
 });
@@ -81,8 +95,10 @@ test("loading and initial error states do not render the table", () => {
   assert.ok(!error.includes("<table"));
 });
 
-test("module CSS contains no explicit color declarations", () => {
-  assert.doesNotMatch(css, /\b(?:color|background(?:-color)?)\s*:/i);
-  assert.doesNotMatch(css, /#[0-9a-f]{3,8}\b/i);
-  assert.doesNotMatch(css, /\brgba?\s*\(/i);
+test("module CSS limits colors to active measurement values", () => {
+  assert.match(css, /\.mmm-hadisplay-value-heating\s*{[^}]*color:/s);
+  assert.match(css, /\.mmm-hadisplay-value-cooling\s*{[^}]*color:/s);
+  assert.match(css, /\.mmm-hadisplay-value-humidity\s*{[^}]*color:/s);
+  assert.equal((css.match(/\bcolor\s*:/g) || []).length, 3);
+  assert.doesNotMatch(css, /\bbackground(?:-color)?\s*:/i);
 });

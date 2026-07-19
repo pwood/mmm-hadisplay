@@ -1,6 +1,6 @@
 # MMM-HADisplay
 
-`MMM-HADisplay` is a monochrome [MagicMirror²](https://magicmirror.builders/) module that displays room climate readings from Home Assistant. Rooms are grouped by Home Assistant floor, with areas that have no floor shown under **Other areas**.
+`MMM-HADisplay` is a restrained [MagicMirror²](https://magicmirror.builders/) module that displays room climate readings from Home Assistant. Rooms are grouped by Home Assistant floor, with areas that have no floor shown under **Other areas**. Colour is reserved for current measurements while a climate controller is actively adjusting the room.
 
 The module posts a fixed Jinja template to Home Assistant's `/api/template` endpoint. For every area with at least one available climate reading, it shows the maximum current temperature, humidity, and PM2.5 value from selected sensors. Missing values within an otherwise populated room are displayed as a dash.
 
@@ -25,6 +25,18 @@ Selected entities must:
 - Belong to a Home Assistant area.
 
 When several selected sensors of the same device class are in one area, the module displays the largest numeric state. Unknown, unavailable, and non-numeric states are ignored. Sensors without an area are omitted.
+
+### Active climate controls
+
+Create a second label named exactly `Climate Control` and apply it to standard Home Assistant `climate` or `humidifier` entities, or to their parent devices. Climate controls are optional and never create a room by themselves.
+
+When a selected controller is actively heating, cooling, humidifying, or drying, the corresponding current room measurement is highlighted and followed by a smaller directional target. Idle and off controllers are not shown:
+
+- Heating uses warm orange/red with an upward arrow.
+- Cooling uses ice blue with a downward arrow.
+- Humidifying and drying use light blue with an upward or downward arrow.
+
+Only the current measurement is colored; the arrow and target retain the normal row color. If several controllers for the same measurement are active, the module displays the target with the largest absolute difference from the current room reading. Without a current reading, it uses the highest heating/humidifying target or the lowest cooling/drying target.
 
 ## Installation
 
@@ -77,6 +89,7 @@ The module sends Home Assistant requests only from its node helper and never log
 - Rooms with no current temperature, humidity, or PM2.5 value are omitted.
 - Floor and room order is preserved as returned by Home Assistant.
 - Temperature uses one decimal place; humidity and PM2.5 use whole numbers.
+- Active climate-control targets are shown only while their Home Assistant action is heating, cooling, humidifying, or drying.
 - After a transient error, the last successful table remains visible with a dimmed **Data unavailable** note.
 
 ## Troubleshooting
@@ -99,6 +112,10 @@ Confirm that its sensors have supported device classes, valid numeric states, an
 ### A sensor does not appear
 
 Assign the entity or its parent device to a Home Assistant area. Sensors without an area are intentionally ignored.
+
+### An active target does not appear
+
+Confirm that the `climate` or `humidifier` entity—or its parent device—has the exact `Climate Control` label, belongs to the same Home Assistant area, exposes a numeric target, and reports an active action rather than `idle` or `off`.
 
 ## Development
 

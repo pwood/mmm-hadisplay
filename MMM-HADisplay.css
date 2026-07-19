@@ -33,6 +33,23 @@
   padding-left: 12px;
 }
 
+.mmm-hadisplay-value-heating {
+  color: #ff8a65;
+}
+
+.mmm-hadisplay-value-cooling {
+  color: #81d4fa;
+}
+
+.mmm-hadisplay-value-humidity {
+  color: #90caf9;
+}
+
+.mmm-hadisplay-target {
+  font-size: 0.85em;
+  white-space: nowrap;
+}
+
 .mmm-hadisplay-status {
   text-align: left;
 }

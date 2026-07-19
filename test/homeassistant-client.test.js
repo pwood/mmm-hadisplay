@@ -39,6 +39,8 @@ test("the fixed template includes all selection and grouping operations", () => 
   const requiredFragments = [
     "label_entities('Climate Source')",
     "label_devices('Climate Source')",
+    "label_entities('Climate Control')",
+    "label_devices('Climate Control')",
     "device_entities(device_id)",
     "climate.entities | unique",
     "entity_id[:7] == 'sensor.'",
@@ -47,6 +49,10 @@ test("the fixed template includes all selection and grouping operations", () => 
     "device_class == 'temperature'",
     "device_class == 'humidity'",
     "device_class == 'pm25'",
+    "action in ['heating', 'preheating', 'cooling']",
+    "action in ['humidifying', 'drying']",
+    "target_temp_low",
+    "target_temp_high",
     "value > readings.temperature_value",
     "value > readings.humidity_value",
     "value > readings.pm25_value",
@@ -148,7 +154,8 @@ test("validateClimateData accepts the fixture and rejects malformed contracts", 
             name: "Garage",
             temperature: { value: "14", unit: "°C" },
             humidity: null,
-            pm25: null
+            pm25: null,
+            controls: []
           }
         ]
       }),

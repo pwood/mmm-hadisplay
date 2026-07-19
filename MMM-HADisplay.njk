@@ -13,8 +13,14 @@
           {% for room in floor.rooms %}
             <tr class="normal mmm-hadisplay-room">
               <td class="align-left">{{ room.name }}</td>
-              <td class="align-right">{{ room.temperature }}</td>
-              <td class="align-right">{{ room.humidity }}</td>
+              <td class="align-right">
+                <span class="{{ room.temperature.valueClass }}">{{ room.temperature.value }}</span>
+                {% if room.temperature.target %}<span class="mmm-hadisplay-target">{{ room.temperature.direction }} {{ room.temperature.target }}</span>{% endif %}
+              </td>
+              <td class="align-right">
+                <span class="{{ room.humidity.valueClass }}">{{ room.humidity.value }}</span>
+                {% if room.humidity.target %}<span class="mmm-hadisplay-target">{{ room.humidity.direction }} {{ room.humidity.target }}</span>{% endif %}
+              </td>
               <td class="align-right">{{ room.pm25 }}</td>
             </tr>
           {% endfor %}
@@ -26,8 +32,14 @@
           {% for room in otherRooms %}
             <tr class="normal mmm-hadisplay-room">
               <td class="align-left">{{ room.name }}</td>
-              <td class="align-right">{{ room.temperature }}</td>
-              <td class="align-right">{{ room.humidity }}</td>
+              <td class="align-right">
+                <span class="{{ room.temperature.valueClass }}">{{ room.temperature.value }}</span>
+                {% if room.temperature.target %}<span class="mmm-hadisplay-target">{{ room.temperature.direction }} {{ room.temperature.target }}</span>{% endif %}
+              </td>
+              <td class="align-right">
+                <span class="{{ room.humidity.valueClass }}">{{ room.humidity.value }}</span>
+                {% if room.humidity.target %}<span class="mmm-hadisplay-target">{{ room.humidity.direction }} {{ room.humidity.target }}</span>{% endif %}
+              </td>
               <td class="align-right">{{ room.pm25 }}</td>
             </tr>
           {% endfor %}
