@@ -1,10 +1,10 @@
 <div class="mmm-hadisplay">
   {% if loading %}
-    <div class="xsmall dimmed mmm-hadisplay-status">Loading…</div>
+    <div class="small dimmed mmm-hadisplay-status">Loading…</div>
   {% elif initialError %}
-    <div class="xsmall dimmed mmm-hadisplay-status">Home Assistant data unavailable</div>
+    <div class="small dimmed mmm-hadisplay-status">Home Assistant data unavailable</div>
   {% else %}
-    <table class="xsmall mmm-hadisplay-table">
+    <table class="small mmm-hadisplay-table">
       <tbody>
         {% for floor in floors %}
           <tr class="dateheader mmm-hadisplay-section">
