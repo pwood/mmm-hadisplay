@@ -1,6 +1,6 @@
 # MMM-HADisplay
 
-`MMM-HADisplay` is a restrained [MagicMirror²](https://magicmirror.builders/) module that displays room climate readings, lighting state, and door security from Home Assistant. Rooms are grouped by Home Assistant floor, with areas that have no floor shown under **Other areas**. Colour is reserved for active climate adjustments, lights that are currently on, and doors that are open.
+`MMM-HADisplay` is a restrained [MagicMirror²](https://magicmirror.builders/) module that displays room climate readings, lighting state, and door security from Home Assistant. Rooms are grouped by Home Assistant floor, with areas that have no floor shown under **Other areas**. Colour is reserved for active climate adjustments and lights that are currently on.
 
 The module posts a fixed Jinja template to Home Assistant's `/api/template` endpoint. For every area with at least one available climate reading, it shows the maximum current temperature, humidity, and PM2.5 value from selected sensors. Missing values within an otherwise populated room are displayed as a dash.
 
@@ -60,7 +60,7 @@ The door icon to the right of the lightbulb summarizes every selected door in th
 
 - A very dim closed door means the area has no selected security door, or its state is unavailable.
 - A dim closed door means every selected door is off/closed and the room is clear.
-- A highlighted open door means at least one selected door is on/open and the room is not clear.
+- A solid open door at normal text brightness means at least one selected door is on/open and the room is not clear.
 
 If one door is open while another is unavailable, the open state wins because the room is definitively not clear. If no door is open but any selected door is unavailable, the room is not reported as clear.
 

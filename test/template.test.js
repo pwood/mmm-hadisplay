@@ -130,7 +130,7 @@ test("loading and initial error states do not render the table", () => {
   assert.ok(!error.includes("<table"));
 });
 
-test("module CSS reserves strong colors for active measurements and open doors", () => {
+test("module CSS reserves strong colors for active measurements", () => {
   assert.match(css, /\.mmm-hadisplay-value-heating\s*{[^}]*color:/s);
   assert.match(css, /\.mmm-hadisplay-value-cooling\s*{[^}]*color:/s);
   assert.match(css, /\.mmm-hadisplay-value-humidity\s*{[^}]*color:/s);
@@ -142,5 +142,6 @@ test("module CSS reserves strong colors for active measurements and open doors",
     /\.mmm-hadisplay-security-unavailable,\s*\.mmm-hadisplay-security-unknown\s*{[^}]*opacity:\s*0\.18/s
   );
   assert.match(css, /\.mmm-hadisplay-security-clear\s*{[^}]*opacity:\s*0\.4/s);
-  assert.match(css, /\.mmm-hadisplay-security-open\s*{[^}]*color:/s);
+  assert.match(css, /\.mmm-hadisplay-security-open\s*{[^}]*opacity:\s*1/s);
+  assert.doesNotMatch(css, /\.mmm-hadisplay-security-open\s*{[^}]*color:/s);
 });
