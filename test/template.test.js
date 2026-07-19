@@ -156,7 +156,7 @@ test("module CSS reserves strong colors for active measurements", () => {
   assert.match(css, /\.mmm-hadisplay-value-humidity\s*{[^}]*color:/s);
   assert.match(
     css,
-    /\.mmm-hadisplay-measurement-unit\s*{[^}]*font-size:\s*0\.65em[^}]*position:\s*relative[^}]*top:\s*5px[^}]*vertical-align:\s*super/s
+    /\.mmm-hadisplay-measurement-unit\s*{[^}]*font-size:\s*0\.65em[^}]*position:\s*relative[^}]*top:\s*3px[^}]*vertical-align:\s*super/s
   );
   assert.doesNotMatch(css, /\bbackground(?:-color)?\s*:/i);
   assert.match(css, /\.mmm-hadisplay-pm25-unavailable\s*{[^}]*opacity:\s*0\.1/s);
