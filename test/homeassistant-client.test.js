@@ -54,6 +54,7 @@ test("the fixed template includes all selection and grouping operations", () => 
     "action in ['heating', 'preheating', 'cooling']",
     "action in ['humidifying', 'drying']",
     "entity_id[:6] == 'light.'",
+    "entity_id[:7] == 'switch.'",
     "is_state(entity_id, 'on')",
     "rgb_color",
     "color_temp_kelvin",

@@ -40,7 +40,7 @@ No target values or direction indicators are requested or displayed, keeping the
 
 ### Lighting
 
-Create a third label named exactly `Lighting` and apply it to individual `light` entities or to their parent devices. Lighting is optional. An area with selected lights receives a row even when it has no selected environmental sensors.
+Create a third label named exactly `Lighting` and apply it to individual `light` or `switch` entities, or to their parent devices. The `switch` domain is supported for simple on/off lights whose integration does not expose a Home Assistant `light` entity. Lighting is optional. An area with selected lights receives a row even when it has no selected environmental sensors.
 
 The lightbulb at the right of every displayed room indicates its lighting state:
 
@@ -48,7 +48,7 @@ The lightbulb at the right of every displayed room indicates its lighting state:
 - Dim means the area has selected lights, but none is on.
 - Normal brightness means at least one selected light is on.
 
-When an active light reports a colour, the bulb receives a softened version of the most saturated active colour. If the active lights report only colour temperature, their current Kelvin values are averaged and shown as a subtle warm or cool tint. On/off and brightness-only lights use the normal text colour. Brightness levels are intentionally ignored.
+When an active `light` entity reports a colour, the bulb receives a softened version of the most saturated active colour. If the active lights report only colour temperature, their current Kelvin values are averaged and shown as a subtle warm or cool tint. On/off lights exposed as either `light` or `switch`, and brightness-only lights, use the normal text colour. Brightness levels are intentionally ignored.
 
 ## Installation
 
@@ -133,7 +133,7 @@ Confirm that the `climate` or `humidifier` entity—or its parent device—has t
 
 ### A lightbulb has the wrong state or tint
 
-Confirm that the `light` entity—or its parent device—has the exact `Lighting` label and belongs to the same Home Assistant area. The tint reflects current colour attributes from lights that are on; not every light integration exposes colour or colour-temperature attributes.
+Confirm that the `light` or `switch` entity—or its parent device—has the exact `Lighting` label and belongs to the same Home Assistant area. The tint reflects current colour attributes from `light` entities that are on. Switch entities do not provide colour data, and some light integrations omit it as well.
 
 ## Development
 
