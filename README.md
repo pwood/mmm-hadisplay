@@ -28,11 +28,11 @@ When several selected sensors of the same device class are in one area, the modu
 
 ### Air quality
 
-PM2.5 is displayed as a grey `fa-smog` icon whose opacity reflects the largest selected reading in the area:
+PM2.5 is displayed as a `fa-smog` icon whose colour reflects the largest selected reading in the area:
 
-- Below 10 is low and uses a dim icon.
-- From 10 to below 50 is medium and uses a stronger icon.
-- At least 50 is high and uses a full-opacity icon.
+- Below 10 is low and uses the normal row text colour.
+- From 10 to below 50 is medium and uses yellow.
+- At least 50 is high and uses red.
 - A very dim icon means no PM2.5 reading is available.
 
 The exact reading, rounded to one decimal place, remains available as the icon's accessible label and tooltip.

@@ -50,14 +50,17 @@
 }
 
 .mmm-hadisplay-pm25-low {
-  opacity: 0.4;
+  color: inherit;
+  opacity: 1;
 }
 
 .mmm-hadisplay-pm25-medium {
-  opacity: 0.7;
+  color: #ffd54f;
+  opacity: 1;
 }
 
 .mmm-hadisplay-pm25-high {
+  color: #ef5350;
   opacity: 1;
 }
 

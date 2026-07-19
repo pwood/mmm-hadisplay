@@ -149,9 +149,9 @@ test("module CSS reserves strong colors for active measurements", () => {
   assert.match(css, /\.mmm-hadisplay-value-humidity\s*{[^}]*color:/s);
   assert.doesNotMatch(css, /\bbackground(?:-color)?\s*:/i);
   assert.match(css, /\.mmm-hadisplay-pm25-unavailable\s*{[^}]*opacity:\s*0\.1/s);
-  assert.match(css, /\.mmm-hadisplay-pm25-low\s*{[^}]*opacity:\s*0\.4/s);
-  assert.match(css, /\.mmm-hadisplay-pm25-medium\s*{[^}]*opacity:\s*0\.7/s);
-  assert.match(css, /\.mmm-hadisplay-pm25-high\s*{[^}]*opacity:\s*1/s);
+  assert.match(css, /\.mmm-hadisplay-pm25-low\s*{[^}]*color:\s*inherit[^}]*opacity:\s*1/s);
+  assert.match(css, /\.mmm-hadisplay-pm25-medium\s*{[^}]*color:\s*#ffd54f[^}]*opacity:\s*1/s);
+  assert.match(css, /\.mmm-hadisplay-pm25-high\s*{[^}]*color:\s*#ef5350[^}]*opacity:\s*1/s);
   assert.match(css, /\.mmm-hadisplay-light-unavailable\s*{[^}]*opacity:\s*0\.1/s);
   assert.match(css, /\.mmm-hadisplay-light-off\s*{[^}]*opacity:\s*0\.4/s);
   assert.match(
