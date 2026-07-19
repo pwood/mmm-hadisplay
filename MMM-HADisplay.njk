@@ -5,14 +5,6 @@
     <div class="small dimmed mmm-hadisplay-status">Home Assistant data unavailable</div>
   {% else %}
     <table class="small mmm-hadisplay-table">
-      <thead>
-        <tr class="dimmed">
-          <th class="normal align-left">Room</th>
-          <th class="normal align-right">Temperature</th>
-          <th class="normal align-right">Humidity</th>
-          <th class="normal align-right">PM2.5</th>
-        </tr>
-      </thead>
       <tbody>
         {% for floor in floors %}
           <tr class="dateheader mmm-hadisplay-section">

@@ -55,6 +55,7 @@ test("the display template renders floors, all rooms, missing values, and other 
   assert.ok(output.includes('class="dateheader mmm-hadisplay-section"'));
   assert.ok(output.includes('class="align-left"'));
   assert.ok(!output.includes('class="bright align-left"'));
+  assert.ok(!output.includes("<thead>"));
   assert.ok(output.includes('class="align-right"'));
 });
 

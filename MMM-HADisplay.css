@@ -7,15 +7,10 @@
   width: 100%;
 }
 
-.mmm-hadisplay-table th,
 .mmm-hadisplay-table td {
   line-height: 1.35;
   padding: 0 0 0 12px;
   white-space: nowrap;
-}
-
-.mmm-hadisplay-table th {
-  font-weight: normal;
 }
 
 .mmm-hadisplay-section td {
@@ -29,7 +24,6 @@
   padding-top: 4px;
 }
 
-.mmm-hadisplay-table th:first-child,
 .mmm-hadisplay-table td:first-child {
   padding-left: 0;
   width: 100%;
