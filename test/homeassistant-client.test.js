@@ -2,6 +2,7 @@ const assert = require("node:assert/strict");
 const { readFileSync } = require("node:fs");
 const path = require("node:path");
 const test = require("node:test");
+const nunjucks = require("nunjucks");
 
 const {
   HOME_ASSISTANT_TEMPLATE,
@@ -36,6 +37,8 @@ test("resolveAccessToken prefers HA_TOKEN and trims both sources", () => {
 });
 
 test("the fixed template includes all selection and grouping operations", () => {
+  assert.doesNotThrow(() => nunjucks.compile(HOME_ASSISTANT_TEMPLATE));
+
   const requiredFragments = [
     "label_entities('Climate Source')",
     "label_devices('Climate Source')",
@@ -70,6 +73,7 @@ test("the fixed template includes all selection and grouping operations", () => 
     "for area_id in areas()",
     "area_id not in result.assigned_areas",
     "readings.temperature is not none or readings.humidity is not none or readings.pm25 is not none or lighting.available",
+    "build_room(area_id) | from_json",
     "to_json"
   ];
 
@@ -78,6 +82,9 @@ test("the fixed template includes all selection and grouping operations", () => 
   }
   assert.ok(!HOME_ASSISTANT_TEMPLATE.includes("target_temp"));
   assert.ok(!HOME_ASSISTANT_TEMPLATE.includes("target="));
+  assert.equal((HOME_ASSISTANT_TEMPLATE.match(/macro build_room\(/g) || []).length, 1);
+  assert.equal((HOME_ASSISTANT_TEMPLATE.match(/set room = build_room\(area_id\)/g) || []).length, 2);
+  assert.equal((HOME_ASSISTANT_TEMPLATE.match(/area_entities\(area_id\)/g) || []).length, 1);
 });
 
 test("fetchClimateData posts the fixed template and parses plain-text JSON", async () => {

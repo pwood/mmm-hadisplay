@@ -3,6 +3,8 @@ const { readFileSync } = require("node:fs");
 const path = require("node:path");
 const test = require("node:test");
 
+require("../lib/light-color");
+
 let definition;
 global.Module = {
   register(name, moduleDefinition) {
@@ -29,6 +31,13 @@ function createInstance(overrides = {}) {
     ...overrides
   });
 }
+
+test("module loads its stylesheet and light color helper", () => {
+  const instance = createInstance({ file: (filePath) => `/module/${filePath}` });
+
+  assert.deepEqual(instance.getStyles(), ["/module/MMM-HADisplay.css"]);
+  assert.deepEqual(instance.getScripts(), ["/module/lib/light-color.js"]);
+});
 
 test("getUpdateInterval accepts positive values and falls back otherwise", () => {
   const instance = createInstance();

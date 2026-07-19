@@ -1,3 +1,18 @@
+{% macro renderRoom(room) -%}
+<tr class="normal mmm-hadisplay-room">
+  <td class="align-left">{{ room.name }}</td>
+  <td class="align-right">
+    <span class="{{ room.temperature.valueClass }}">{{ room.temperature.value }}</span>
+  </td>
+  <td class="align-right">
+    <span class="{{ room.humidity.valueClass }}">{{ room.humidity.value }}</span>
+  </td>
+  <td class="align-right">{{ room.pm25 }}</td>
+  <td class="align-right mmm-hadisplay-condition">
+    <span class="{{ room.lighting.iconClass }} fa-fw fa-lightbulb mmm-hadisplay-light {{ room.lighting.className }}" style="{{ room.lighting.style }}" aria-hidden="true"></span>
+  </td>
+</tr>
+{%- endmacro %}
 <div class="mmm-hadisplay">
   {% if loading %}
     <div class="small dimmed mmm-hadisplay-status">Loading…</div>
@@ -11,19 +26,7 @@
             <td colspan="5" class="bright">{{ floor.name }}</td>
           </tr>
           {% for room in floor.rooms %}
-            <tr class="normal mmm-hadisplay-room">
-              <td class="align-left">{{ room.name }}</td>
-              <td class="align-right">
-                <span class="{{ room.temperature.valueClass }}">{{ room.temperature.value }}</span>
-              </td>
-              <td class="align-right">
-                <span class="{{ room.humidity.valueClass }}">{{ room.humidity.value }}</span>
-              </td>
-              <td class="align-right">{{ room.pm25 }}</td>
-              <td class="align-right mmm-hadisplay-condition">
-                <span class="{{ room.lighting.iconClass }} fa-fw fa-lightbulb mmm-hadisplay-light {{ room.lighting.className }}" style="{{ room.lighting.style }}" aria-hidden="true"></span>
-              </td>
-            </tr>
+            {{ renderRoom(room) }}
           {% endfor %}
         {% endfor %}
         {% if otherRooms | length > 0 %}
@@ -31,19 +34,7 @@
             <td colspan="5" class="bright">Other areas</td>
           </tr>
           {% for room in otherRooms %}
-            <tr class="normal mmm-hadisplay-room">
-              <td class="align-left">{{ room.name }}</td>
-              <td class="align-right">
-                <span class="{{ room.temperature.valueClass }}">{{ room.temperature.value }}</span>
-              </td>
-              <td class="align-right">
-                <span class="{{ room.humidity.valueClass }}">{{ room.humidity.value }}</span>
-              </td>
-              <td class="align-right">{{ room.pm25 }}</td>
-              <td class="align-right mmm-hadisplay-condition">
-                <span class="{{ room.lighting.iconClass }} fa-fw fa-lightbulb mmm-hadisplay-light {{ room.lighting.className }}" style="{{ room.lighting.style }}" aria-hidden="true"></span>
-              </td>
-            </tr>
+            {{ renderRoom(room) }}
           {% endfor %}
         {% endif %}
       </tbody>

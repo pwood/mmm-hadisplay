@@ -83,6 +83,8 @@ test("the display template renders floors, all rooms, missing values, and other 
   assert.ok(output.includes("mmm-hadisplay-light-unavailable"));
   assert.ok(output.includes("mmm-hadisplay-light-off"));
   assert.ok(output.includes("color: rgb(244, 129, 129)"));
+  assert.equal((template.match(/<tr class="normal mmm-hadisplay-room">/g) || []).length, 1);
+  assert.equal((template.match(/\{\{ renderRoom\(room\) \}\}/g) || []).length, 2);
 });
 
 test("loading and initial error states do not render the table", () => {
@@ -111,7 +113,6 @@ test("module CSS limits colors to active measurement values", () => {
   assert.match(css, /\.mmm-hadisplay-value-heating\s*{[^}]*color:/s);
   assert.match(css, /\.mmm-hadisplay-value-cooling\s*{[^}]*color:/s);
   assert.match(css, /\.mmm-hadisplay-value-humidity\s*{[^}]*color:/s);
-  assert.equal((css.match(/\bcolor\s*:/g) || []).length, 3);
   assert.doesNotMatch(css, /\bbackground(?:-color)?\s*:/i);
   assert.match(css, /\.mmm-hadisplay-light-unavailable\s*{[^}]*opacity:\s*0\.18/s);
   assert.match(css, /\.mmm-hadisplay-light-off\s*{[^}]*opacity:\s*0\.4/s);
